@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Онлайн-запись</title>
+    <!-- Подключаем Telegram Web App API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Подключаем стили Tailwind CSS для быстрой верстки -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        .btn-primary {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+        }
+    </style>
+</head>
+<body class="p-4 max-w-md mx-auto">
+
+    <!-- Шапка приложения -->
+    <div class="mb-6 text-center">
+        <h1 class="text-xl font-bold">Запись на тренировку</h1>
+        <p class="text-xs opacity-60 mt-1">Длительность сессии: 45 минут</p>
+    </div>
+
+    <!-- ЭКРАН 1: Выбор услуги -->
+    <div id="step-services" class="space-y-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wider opacity-60 mb-2">Выберите услугу:</h2>
+        
+        <div onclick="selectService('Персональная тренировка', '30$')" class="border rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-all bg-[var(--tg-theme-secondary-bg-color,#f4f4f5)]">
+            <div class="font-bold">Персональная тренировка</div>
+            <div class="text-sm opacity-80 mt-1">Разбор биомеханики, индивидуальный подход.</div>
+            <div class="text-sm font-semibold mt-2 text-[var(--tg-theme-button-color,#2481cc)]">30$</div>
+        </div>
+
+        <div onclick="selectService('Функциональный тренинг', '25$')" class="border rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-all bg-[var(--tg-theme-secondary-bg-color,#f4f4f5)]">
+            <div class="font-bold">Функциональный тренинг</div>
+            <div class="text-sm opacity-80 mt-1">Работа на выносливость, баланс и координацию.</div>
+            <div class="text-sm font-semibold mt-2 text-[var(--tg-theme-button-color,#2481cc)]">25$</div>
+        </div>
+    </div>
+
+    <!-- ЭКРАН 2: Выбор даты и времени (скрыт по умолчанию) -->
+    <div id="step-time" class="hidden space-y-4">
+        <button onclick="goBack('services')" class="text-sm text-[var(--tg-theme-link-color,#2481cc)] mb-2">← Назад к услугам</button>
+        <h2 class="text-sm font-semibold uppercase tracking-wider opacity-60">Выберите дату и время:</h2>
+        
+        <!-- Простая имитация дней -->
+        <div class="flex gap-2 overflow-x-auto pb-2">
+            <button onclick="selectDate('Сегодня')" class="border rounded-lg px-4 py-2 text-sm bg-blue-500 text-white font-medium">Сегодня</button>
+            <button onclick="selectDate('Завтра')" class="border rounded-lg px-4 py-2 text-sm opacity-80">Завтра</button>
+            <button onclick="selectDate('Послезавтра')" class="border rounded-lg px-4 py-2 text-sm opacity-80">Послезавтра</button>
+        </div>
+
+        <!-- Свободные слоты по 45 минут -->
+        <div class="grid grid-cols-3 gap-2 mt-4">
+            <button onclick="selectTime('09:00')" class="border rounded-lg p-2 text-sm text-center hover:bg-blue-500 hover:text-white transition-colors">09:00</button>
+            <button onclick="selectTime('10:00')" class="border rounded-lg p-2 text-sm text-center hover:bg-blue-500 hover:text-white transition-colors">10:00</button>
+            <button onclick="selectTime('11:00')" class="border rounded-lg p-2 text-sm text-center hover:bg-blue-500 hover:text-white transition-colors">11:00</button>
+            <button onclick="selectTime('14:00')" class="border rounded-lg p-2 text-sm text-center hover:bg-blue-500 hover:text-white transition-colors">14:00</button>
+            <button onclick="selectTime('15:00')" class="border rounded-lg p-2 text-sm text-center hover:bg-blue-500 hover:text-white transition-colors">15:00</button>
+            <button onclick="selectTime('16:00')" class="border rounded-lg p-2 text-sm text-center hover:bg-blue-500 hover:text-white transition-colors">16:00</button>
+        </div>
+    </div>
+
+    <!-- ЭКРАН 3: Подтверждение (скрыт по умолчанию) -->
+    <div id="step-confirm" class="hidden space-y-4">
+        <button onclick="goBack('time')" class="text-sm text-[var(--tg-theme-link-color,#2481cc)] mb-2">← Назад к времени</button>
+        <h2 class="text-sm font-semibold uppercase tracking-wider opacity-60">Проверьте данные:</h2>
+        
+        <div class="bg-[var(--tg-theme-secondary-bg-color,#f4f4f5)] p-4 rounded-xl space-y-1">
+            <div><strong>Услуга:</strong> <span id="summary-service">-</span></div>
+            <div><strong>Дата:</strong> <span id="summary-date">Сегодня</span></div>
+            <div><strong>Время:</strong> <span id="summary-time">-</span></div>
+        </div>
+
+        <button onclick="submitBooking()" class="btn-primary w-full py-3 rounded-xl font-bold mt-4 shadow-md">
+            Подтвердить запись
+        </button>
+    </div>
+
+    <script>
+        // Инициализируем Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.ready(); // Сообщаем ТГ, что приложение загрузилось
+        tg.expand(); // Разворачиваем на весь экран
+
+        // Объект, куда будем собирать данные записи
+        let bookingData = {
+            service: '',
+            price: '',
+            date: 'Сегодня',
+            time: ''
+        };
+
+        function selectService(name, price) {
+            bookingData.service = name;
+            bookingData.price = price;
+            
+            document.getElementById('step-services').classList.add('hidden');
+            document.getElementById('step-time').classList.remove('hidden');
+        }
+
+        function selectDate(date) {
+            bookingData.date = date;
+            // Здесь в будущем добавим визуальное переключение активного дня
+        }
+
+        function selectTime(time) {
+            bookingData.time = time;
+            
+            document.getElementById('summary-service').innerText = `${bookingData.service} (${bookingData.price})`;
+            document.getElementById('summary-date').innerText = bookingData.date;
+            document.getElementById('summary-time').innerText = bookingData.time + ' (45 мин)';
+
+            document.getElementById('step-time').classList.add('hidden');
+            document.getElementById('step-confirm').classList.remove('hidden');
+        }
+
+        function goBack(toStep) {
+            document.getElementById('step-services').classList.add('hidden');
+            document.getElementById('step-time').classList.add('hidden');
+            document.getElementById('step-confirm').classList.add('hidden');
+
+            document.getElementById(`step-${toStep}`).classList.remove('hidden');
+        }
+
+        function submitBooking() {
+            // Отправляем данные обратно боту в чат в формате JSON
+            tg.sendData(JSON.stringify(bookingData));
+            // Закрываем мини-приложение
+            tg.close();
+        }
+    </script>
+</body>
+</html>
