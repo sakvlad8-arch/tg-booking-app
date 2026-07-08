@@ -24,8 +24,6 @@
             color: #3b82f6 !important;
             font-weight: bold;
         }
-        
-        /* Брендовые цвета соцсетей */
         .bg-telegram { background-color: #0088cc; }
         .bg-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .bg-tiktok { background-color: #010101; border: 1px solid #ff0050; }
@@ -39,26 +37,52 @@
 
     <!-- ЭКРАН 0: ГЛАВНАЯ (ВИЗИТКА) -->
     <div id="screen-main" class="screen space-y-5">
-        <div class="text-center py-4">
+        <!-- Аватар / Приветствие -->
+        <div class="text-center py-2">
             <div class="w-24 h-24 bg-blue-600 rounded-full mx-auto mb-3 flex items-center justify-center text-3xl shadow-lg border-2 border-blue-400">
                 🏒
             </div>
             <h1 class="text-2xl font-black tracking-tight">Влад | На связи</h1>
-            <p class="text-xs opacity-60 mt-1">Твой тренер по фитнесу и хоккею</p>
+            <p class="text-xs opacity-60 mt-1">Твой проводник в умный фитнес и хоккей</p>
         </div>
 
+        <!-- Цифры и Достижения -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-secondary p-2.5 rounded-xl border border-zinc-700/30">
+                <span class="block text-lg font-black text-blue-400">15 лет</span>
+                <span class="text-[10px] opacity-60 uppercase font-medium">в хоккее</span>
+            </div>
+            <div class="bg-secondary p-2.5 rounded-xl border border-zinc-700/30">
+                <span class="block text-lg font-black text-blue-400">5 лет</span>
+                <span class="text-[10px] opacity-60 uppercase font-medium">на льду</span>
+            </div>
+            <div class="bg-secondary p-2.5 rounded-xl border border-zinc-700/30">
+                <span class="block text-lg font-black text-blue-400">100+</span>
+                <span class="text-[10px] opacity-60 uppercase font-medium">учеников</span>
+            </div>
+        </div>
+
+        <!-- Обо мне -->
         <div class="bg-secondary p-4 rounded-2xl border border-zinc-700/50 space-y-3 shadow-md">
             <h3 class="font-bold text-sm uppercase tracking-wider text-blue-400 flex items-center gap-1">
-                <span>🧠</span> Мой подход
+                <span>🧠</span> Мой бэкграунд и подход
             </h3>
-            <p class="text-sm leading-relaxed opacity-90">
-                Я не просто говорю «делай как я». Моя фишка — это <b>индивидуальный подход и биомеханика</b>. Я раскладываю по полочкам, как работает каждая мышца в твоем теле во время движения.
+            <p class="text-xs leading-relaxed opacity-90 space-y-2">
+                15 лет отыграл на профессиональном уровне в <b>СДЮШОР Юность-Минск</b>. Сейчас выступаю за ХК «Аквалит» и тренирую команду «Золотая шайба» в ЦФОР Ленинского района.<br><br>
+                Помогаю встать на коньки и прокачать тело как абсолютным <b>новичкам (с нуля)</b>, так и <b>профессионалам</b>. Тренирую легко, красиво и с умом.
             </p>
+            
+            <div class="bg-zinc-800/40 p-3 rounded-xl border border-blue-500/20">
+                <h4 class="font-bold text-xs text-blue-400 mb-1">🛠️ «Техосмотр» твоего тела:</h4>
+                <p class="text-[11px] opacity-80 leading-relaxed">
+                    Я провожу детальный опрос, оцениваю твои цели и уровень подготовки. Никаких шаблонных программ. Разбираем биомеханику, чтобы ты понимал работу каждой мышцы.
+                </p>
+            </div>
         </div>
 
-        <!-- Блок соцсетей в фирменных цветах -->
+        <!-- Соцсети -->
         <div class="bg-secondary p-4 rounded-2xl border border-zinc-700/50 space-y-3 shadow-md">
-            <h3 class="font-bold text-xs uppercase tracking-wider opacity-60">Следи за мной в соцсетях:</h3>
+            <h3 class="font-bold text-xs uppercase tracking-wider opacity-60">Мой контент тут:</h3>
             <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
                 <a href="https://t.me/sakik47" target="_blank" class="bg-telegram flex items-center gap-2 p-3 rounded-xl text-white no-underline shadow-sm">
                     <span>📢</span> Telegram
@@ -79,19 +103,27 @@
         </div>
     </div>
 
-    <!-- ЭКРАН 1: СПИСОК УСЛУГ + РЕЗУЛЬТАТЫ -->
+    <!-- ЭКРАН 1: СПИСОК УСЛУГ + ЛОКАЦИИ + РЕЗУЛЬТАТЫ -->
     <div id="screen-services" class="screen hidden space-y-4">
         <h2 id="category-title" class="text-lg font-black text-blue-400">Направление</h2>
         
-        <!-- Динамический блок "Результат" -->
-        <div id="category-result-box" class="bg-blue-950/40 border border-blue-500/30 p-4 rounded-xl space-y-2 shadow-sm">
+        <!-- Блок Результат -->
+        <div class="bg-blue-950/40 border border-blue-500/30 p-4 rounded-xl space-y-1 shadow-sm">
             <h4 class="font-bold text-xs uppercase tracking-wider text-blue-400 flex items-center gap-1">
-                🎯 Что ты получишь в результате:
+                🎯 Результат тренировок:
             </h4>
             <p id="category-result-text" class="text-xs leading-relaxed opacity-90"></p>
         </div>
 
-        <p class="text-xs font-semibold uppercase tracking-wider opacity-60 pt-2">Варианты тренировок и стоимость:</p>
+        <!-- Динамический блок Локаций -->
+        <div class="bg-zinc-800/50 border border-zinc-700/40 p-3 rounded-xl space-y-1">
+            <h4 class="font-bold text-[11px] uppercase tracking-wider opacity-60 flex items-center gap-1">
+                📍 Где тренируемся (нажми для карты):
+            </h4>
+            <div id="category-locations" class="text-xs space-y-1"></div>
+        </div>
+
+        <p class="text-xs font-semibold uppercase tracking-wider opacity-60 pt-2">Варианты и стоимость:</p>
         <div id="services-list" class="space-y-3"></div>
     </div>
 
@@ -106,7 +138,7 @@
         </div>
 
         <div id="time-slots-container" class="hidden">
-            <h3 class="text-xs font-semibold uppercase tracking-wider opacity-60 mb-2">Доступное время (сессии по 45 мин):</h3>
+            <h3 class="text-xs font-semibold uppercase tracking-wider opacity-60 mb-2">Доступное время:</h3>
             <div id="slots-grid" class="grid grid-cols-3 gap-2">
                 <button onclick="selectTime('09:00')" class="border border-zinc-700/30 rounded-lg p-2 text-sm text-center bg-secondary hover:bg-blue-500 hover:text-white transition-colors">09:00</button>
                 <button onclick="selectTime('10:00')" class="border border-zinc-700/30 rounded-lg p-2 text-sm text-center bg-secondary hover:bg-blue-500 hover:text-white transition-colors">10:00</button>
@@ -169,26 +201,39 @@
         let bookingData = { category: '', service: '', price: '', date: '', time: '' };
         let currentCategoryKey = '';
 
-        // Наша база данных с услугами и КЕЙСАМИ/РЕЗУЛЬТАТАМИ
+        // Наша структурированная база данных со ссылками на Яндекс.Карты
         const servicesData = {
             gym: { 
                 title: 'Тренажерный зал', 
-                result: 'Разберем биомеханику движений, укрепим мышечный корсет, увеличим силовые показатели и выносливость без травм и перегрузок.',
+                result: 'Разберем биомеханику движений, укрепим мышечный корсет, увеличим силовые показатели и выносливость без травм. В зале тренировки требуют времени, но результат того стоит.',
+                locations: `<a href="https://yandex.ru/maps/org/190789357583" target="_blank" class="text-blue-400 block underline">Gym24 на Немиге (Победителей 7А)</a>`,
                 list: [{ name: 'Персональная тренировка', price: '40 BYN' }, { name: 'Сплит тренировка', price: '30 BYN' }] 
             },
             skating: { 
                 title: 'Катание на коньках', 
-                result: 'Уверенная посадка, баланс и координация на льду. Постановка правильного шага, эффективного торможения и маневренности как для новичков, так и для продвинутых.',
+                result: 'Уверенная посадка, баланс и координация на льду. Постановка правильного шага и маневренности. Более 100 человек уже успешно поехали после моих занятий.',
+                locations: `
+                    <a href="https://yandex.ru/maps/org/170174590947" target="_blank" class="text-blue-400 block underline">ТРЦ Замок (Победителей 65)</a>
+                    <a href="https://yandex.ru/maps/org/111429240010" target="_blank" class="text-blue-400 block underline mt-1">DiaMond City (Щомыслицкий с/с)</a>
+                    <a href="https://yandex.ru/maps/org/1348928855" target="_blank" class="text-blue-400 block underline mt-1">Чижовка-Арена (Ташкентская 19)</a>
+                    <a href="https://yandex.ru/maps/org/1059314859" target="_blank" class="text-blue-400 block underline mt-1">Ледовый дворец (Притыцкого 27)</a>
+                `,
                 list: [{ name: 'Взрослый', price: '55 BYN + вход для тренера' }, { name: 'Детский', price: '50 BYN + вход для тренера' }, { name: '2 Взрослых', price: '75 BYN + вход для тренера' }, { name: 'Взрослый + Детский', price: '70 BYN + вход для тренера' }, { name: '2 Ребенка (до 14 лет)', price: '65 BYN + вход для тренера' }] 
             },
             hockey: { 
-                title: 'Отработка хоккейного мастерства', 
-                result: 'Повышение игрового IQ, улучшение контроля шайбы на скорости, взрывного катания, техники дриблинга и быстрого принятия решений в стрессовых ситуациях.',
+                title: 'Хоккейное мастерство', 
+                result: 'Повышение игрового IQ, улучшение контроля шайбы на скорости, взрывного катания, техники дриблинга и быстрого принятия решений. Опыт профессионального игрока к вашим услугам.',
+                locations: `
+                    <a href="https://yandex.ru/maps/org/170174590947" target="_blank" class="text-blue-400 block underline">ТРЦ Замок (Победителей 65)</a>
+                    <a href="https://yandex.ru/maps/org/1348928855" target="_blank" class="text-blue-400 block underline mt-1">Чижовка-Арена (Ташкентская 19)</a>
+                    <a href="https://yandex.ru/maps/org/1059314859" target="_blank" class="text-blue-400 block underline mt-1">Ледовый дворец (Притыцкого 27)</a>
+                `,
                 list: [{ name: 'Взрослый', price: '55 BYN + вход для тренера' }, { name: 'Детский', price: '50 BYN + вход для тренера' }, { name: '2 Взрослых', price: '75 BYN + вход для тренера' }, { name: 'Взрослый + Детский', price: '70 BYN + вход для тренера' }, { name: '2 Ребенка (до 14 лет)', price: '65 BYN + вход для тренера' }] 
             },
             'dry-ice': { 
                 title: 'Броски на сухом льду', 
-                result: 'Поставим хлесткий, сильный и точный бросок. Отработаем броски с неудобной руки, в касание, щелчки, а также улучшим периферическое зрение и мышечную память кистей.',
+                result: 'Поставим хлесткий, сильный и точный бросок. Отработаем броски с неудобной руки, щелчки, улучшим мышечную память кистей и реакцию.',
+                locations: `<a href="https://yandex.ru/maps/org/186369458513" target="_blank" class="text-blue-400 block underline">Бросковая зона (Кальварийская 18)</a>`,
                 list: [{ name: 'Взрослый', price: '35 BYN + вход 20 BYN' }, { name: 'Детский', price: '30 BYN + вход 20 BYN' }, { name: '2 Взрослых', price: '55 BYN + вход 20 BYN' }, { name: 'Взрослый + Детский', price: '50 BYN + вход 20 BYN' }, { name: '2 Ребенка (до 14 лет)', price: '45 BYN + вход 20 BYN' }] 
             }
         };
@@ -206,8 +251,8 @@
                 bookingData.category = category.title;
 
                 document.getElementById('category-title').innerText = category.title;
-                // Подставляем текст результата для конкретной категории
                 document.getElementById('category-result-text').innerText = category.result;
+                document.getElementById('category-locations').innerHTML = category.locations;
                 
                 const listContainer = document.getElementById('services-list');
                 listContainer.innerHTML = '';
