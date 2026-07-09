@@ -6,365 +6,68 @@
     <title>Запись на тренировки</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            font-family: sans-serif;
-            background-color: #1c1c1e;
-            color: white;
-            margin: 0;
-            padding: 15px;
-        }
+        body { font-family: sans-serif; background-color: #1c1c1e; color: white; padding: 15px; }
         .screen { display: none; }
         .active { display: block; }
-        button {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            background-color: #2c2c2e;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: left;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .grid button { text-align: center; }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 15px 0;
-            border-radius: 6px;
-            border: 1px solid #444;
-            background-color: #2c2c2e;
-            color: white;
-            box-sizing: border-box;
-        }
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #2c2c2e;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-        }
-        .nav-item {
-            color: #8e8e93;
-            background: none;
-            padding: 0;
-            margin: 0;
-            width: auto;
-            font-size: 14px;
-            text-align: center;
-        }
-        .nav-item.active-nav { color: #0a84ff; }
-        .review-card {
-            background-color: #2c2c2e;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
+        button { width: 100%; padding: 12px; margin: 8px 0; background-color: #2c2c2e; border: none; border-radius: 8px; color: white; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     </style>
 </head>
 <body>
-
-    <!-- ЭКРАН РЕГИСТРАЦИИ -->
-    <div id="registration-screen" class="screen">
-        <h2>Регистрация</h2>
-        <label>Имя</label>
-        <input id="reg-firstname" type="text" placeholder="Имя">
-        <label>Фамилия</label>
-        <input id="reg-lastname" type="text" placeholder="Фамилия">
-        <label>Телефон</label>
-        <input id="reg-phone" type="tel" placeholder="Телефон">
-        <label>Дата рождения</label>
-        <input id="reg-birthday" type="date">
-        <button onclick="submitRegistration()" style="background-color: #0a84ff; text-align: center;">Сохранить</button>
-    </div>
-
-    <!-- ГЛАВНЫЙ ЭКРАН -->
-    <div id="main-screen" class="screen">
+    <div id="main-screen" class="screen active">
         <h2>Выберите направление</h2>
-        <button onclick="selectCategory('Тренажерный зал')">💪 Тренажерный зал (Немига)</button>
-        <button onclick="selectCategory('Катание на коньках')">⛸️ Катание на коньках (Замок)</button>
-        <button onclick="selectCategory('Хоккейное мастерство')">🏒 Хоккейное мастерство (Чижовка)</button>
-        <button onclick="selectCategory('Броски на сухом льду')">🎯 Броски на сухом льду (Кальварийская)</button>
+        <button onclick="selectCategory('Тренажерный зал')">Тренажерный зал</button>
+        <button onclick="selectCategory('Катание на коньках')">Катание на коньках</button>
+        <button onclick="selectCategory('Хоккейное мастерство')">Хоккейное мастерство</button>
+        <button onclick="selectCategory('Броски на сухом льду')">Броски на сухом льду</button>
     </div>
 
-    <!-- ЭКРАН УСЛУГ -->
     <div id="services-screen" class="screen">
-        <button onclick="goBack('main-screen')" style="color: #0a84ff; background: none; padding: 0;">← Назад</button>
         <h2 id="services-title"></h2>
         <div id="services-container"></div>
     </div>
 
-    <!-- ЭКРАН ДАТЫ И ВРЕМЕНИ -->
     <div id="datetime-screen" class="screen">
-        <button onclick="goBack('services-screen')" style="color: #0a84ff; background: none; padding: 0;">← Назад</button>
-        <h2>Выберите дату и время</h2>
         <input id="datepicker" type="date" onchange="onDateSelected(this.value)">
-        <div id="time-slots-container" style="display:none;">
-            <h3>Доступное время:</h3>
-            <div id="slots-grid" class="grid"></div>
-        </div>
-    </div>
-
-    <!-- ЭКРАН ОТЗЫВОВ -->
-    <div id="reviews-screen" class="screen">
-        <h2>Оставить отзыв</h2>
-        <div style="font-size: 24px; margin-bottom: 15px;">
-            <span onclick="setRating(1)" class="star" style="cursor:pointer; color:gray;">★</span>
-            <span onclick="setRating(2)" class="star" style="cursor:pointer; color:gray;">★</span>
-            <span onclick="setRating(3)" class="star" style="cursor:pointer; color:gray;">★</span>
-            <span onclick="setRating(4)" class="star" style="cursor:pointer; color:gray;">★</span>
-            <span onclick="setRating(5)" class="star" style="cursor:pointer; color:gray;">★</span>
-        </div>
-        <textarea id="review-text" rows="4" placeholder="Ваш отзыв..."></textarea>
-        <button onclick="submitReview()" style="background-color: #34c759; text-align: center;">Отправить</button>
-    </div>
-
-    <!-- ЭКРАН СПИСКА ОТЗЫВОВ -->
-    <div id="reviews-list-screen" class="screen">
-        <h2>Отзывы клиентов</h2>
-        <div id="reviews-list-container"></div>
-    </div>
-
-    <!-- НАВИГАЦИЯ -->
-    <div class="nav-bar">
-        <button onclick="navClick('main')" class="nav-item active-nav" id="nav-main">📅 Запись</button>
-        <button onclick="navClick('reviews-list')" class="nav-item" id="nav-reviews">💬 Отзывы</button>
+        <div id="slots-grid" class="grid"></div>
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        const user_id = tg.initDataUnsafe?.user?.id || 0;
         const serverUrl = "https://9cfd-37-214-43-98.ngrok-free.app";
-
-        let currentRating = 0;
-        let bookingData = { category: "", service: "", price: "", date: "", time: "", raw_date: "", user_id: user_id };
-
-        const servicesData = {
-            "Тренажерный зал": [
-                { name: "Разовая тренировка", price: "50 BYN" },
-                { name: "Блок из 4 тренировок", price: "180 BYN" },
-                { name: "Блок из 8 тренировок", price: "340 BYN" },
-                { name: "Блок из 12 тренировок", price: "480 BYN" }
-            ],
-            "Катание на коньках": [
-                { name: "Индивидуальное занятие", price: "60 BYN" },
-                { name: "Сплит-тренировка (2 чел)", price: "90 BYN" }
-            ],
-            "Хоккейное мастерство": [
-                { name: "Разовое занятие", price: "65 BYN" },
-                { name: "Абонемент на 4 занятия", price: "240 BYN" }
-            ],
-            "Броски на сухом льду": [
-                { name: "Постановка броска 60 мин", price: "45 BYN" },
-                { name: "Дриблинг + броски 60 мин", price: "50 BYN" }
-            ]
-        };
-
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('action') === 'leave_review') {
-            switchScreen('reviews-screen');
-        } else {
-            fetch(`${serverUrl}/check_user/${user_id}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.registered) switchScreen('main-screen');
-                    else switchScreen('registration-screen');
-                })
-                .catch(() => switchScreen('main-screen'));
-        }
-
-        function switchScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            
-            if (id === 'datetime-screen' || id === 'services-screen' || id === 'registration-screen') {
-                tg.BackButton.show();
-                tg.BackButton.onClick(handleBack);
-            } else {
-                tg.BackButton.hide();
-            }
-        }
-
-        function handleBack() {
-            if (document.getElementById('datetime-screen').classList.contains('active')) goBack('services-screen');
-            else if (document.getElementById('services-screen').classList.contains('active')) goBack('main-screen');
-            else tg.close();
-        }
-
-        function goBack(id) { switchScreen(id); }
-
-        function submitRegistration() {
-            const data = {
-                user_id: user_id,
-                first_name: document.getElementById('reg-firstname').value,
-                last_name: document.getElementById('reg-lastname').value,
-                phone: document.getElementById('reg-phone').value,
-                birthday: document.getElementById('reg-birthday').value
-            };
-            if(!data.first_name || !data.phone) { alert("Заполните Имя и Телефон!"); return; }
-            fetch(`${serverUrl}/register`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            }).then(() => switchScreen('main-screen'));
-        }
+        let bookingData = {};
 
         function selectCategory(cat) {
             bookingData.category = cat;
             document.getElementById('services-title').innerText = cat;
-            const container = document.getElementById('services-container');
-            container.innerHTML = "";
-            
-            servicesData[cat].forEach(s => {
-                const btn = document.createElement('button');
-                btn.innerHTML = `<span>${s.name}</span> <span style="float:right; color:#0a84ff;">${s.price}</span>`;
-                btn.onclick = () => selectService(s.name, s.price);
-                container.appendChild(btn);
-            });
-            switchScreen('services-screen');
-        }
-
-        function selectService(name, price) {
-            bookingData.service = name;
-            bookingData.price = price;
-            
-            const today = new Date().toISOString().split('T')[0];
-            const maxDate = new Date();
-            maxDate.setDate(maxDate.getDate() + 14);
-            const maxStr = maxDate.toISOString().split('T')[0];
-            
-            const dp = document.getElementById('datepicker');
-            dp.value = "";
-            dp.min = today;
-            dp.max = maxStr;
-            
-            document.getElementById('time-slots-container').style.display = 'none';
-            switchScreen('datetime-screen');
+            document.getElementById('services-screen').classList.add('active');
+            document.getElementById('main-screen').classList.remove('active');
         }
 
         function onDateSelected(val) {
-            if (!val) return;
-            bookingData.raw_date = val;
-            const parts = val.split('-');
-            const d = new Date(parts[0], parts[1] - 1, parts[2]);
-            bookingData.date = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            
-            // Здесь добавлена категория, чтобы бэкенд отфильтровал зазор времени между локациями
-            fetch(`${serverUrl}/get_blocked_slots/${val}?category=${encodeURIComponent(bookingData.category)}`)
-                .then(res => res.json())
+            fetch(`${serverUrl}/get_blocked_slots/${val}`)
+                .then(r => r.json())
                 .then(data => {
-                    generateTimeSlots(data.blocked_slots);
-                    document.getElementById('time-slots-container').style.display = 'block';
+                    const grid = document.getElementById('slots-grid');
+                    grid.innerHTML = "";
+                    for (let h = 7; h <= 22; h++) {
+                        let t = `${h < 10 ? '0' + h : h}:00`;
+                        let btn = document.createElement('button');
+                        btn.innerText = t;
+                        if (data.blocked_slots.includes(t)) { btn.disabled = true; btn.style.opacity = "0.3"; }
+                        else btn.onclick = () => confirmBooking(t);
+                        grid.appendChild(btn);
+                    }
                 });
         }
-
-        function generateTimeSlots(blockedSlots) {
-            const grid = document.getElementById('slots-grid');
-            grid.innerHTML = "";
-            for (let hour = 7; hour <= 22; hour++) {
-                const timeStr = `${hour < 10 ? '0' + hour : hour}:00`;
-                const isBlocked = blockedSlots.includes(timeStr);
-                
-                const btn = document.createElement('button');
-                btn.innerText = timeStr;
-                if (isBlocked) {
-                    btn.style.backgroundColor = '#1c1c1e';
-                    btn.style.color = '#444';
-                    btn.style.cursor = 'not-allowed';
-                    btn.disabled = true;
-                } else {
-                    btn.onclick = () => confirmBooking(timeStr);
-                }
-                grid.appendChild(btn);
-            }
-        }
-
+        
         function confirmBooking(time) {
             bookingData.time = time;
-            if (confirm(`Записаться на ${bookingData.date} в ${time}?`)) {
-                fetch(`${serverUrl}/webhook`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(bookingData)
-                })
-                .then(res => {
-                    if (!res.ok) return res.json().then(err => { throw new Error(err.detail) });
-                    return res.json();
-                })
-                .then(() => {
-                    alert("✅ Вы успешно записались!");
-                    tg.close();
-                })
-                .catch(err => alert(`Ошибка: ${err.message}`));
-            }
-        }
-
-        function setRating(r) {
-            currentRating = r;
-            const stars = document.querySelectorAll('.star');
-            stars.forEach((s, idx) => {
-                if (idx < r) s.style.color = 'gold';
-                else s.style.color = 'gray';
-            });
-        }
-
-        function submitReview() {
-            const text = document.getElementById('review-text').value;
-            if (currentRating === 0) { alert("Выберите оценку!"); return; }
-            fetch(`${serverUrl}/review`, {
+            bookingData.raw_date = document.getElementById('datepicker').value;
+            fetch(`${serverUrl}/webhook`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ user_id: user_id, rating: currentRating, text: text })
-            }).then(() => {
-                alert("Спасибо за отзыв!");
-                tg.close();
-            });
-        }
-
-        function navClick(type) {
-            const nMain = document.getElementById('nav-main');
-            const nRev = document.getElementById('nav-reviews');
-            if (type === 'main') {
-                nMain.classList.add('active-nav');
-                nRev.classList.remove('active-nav');
-                switchScreen('main-screen');
-            } else {
-                nRev.classList.add('active-nav');
-                nMain.classList.remove('active-nav');
-                loadReviewsList();
-            }
-        }
-
-        function loadReviewsList() {
-            fetch(`${serverUrl}/reviews`)
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('reviews-list-container');
-                    container.innerHTML = "";
-                    if(data.length === 0) {
-                        container.innerHTML = "<p style='color:gray;'>Отзывов пока нет.</p>";
-                    } else {
-                        data.forEach(r => {
-                            const div = document.createElement('div');
-                            div.className = "review-card";
-                            div.innerHTML = `<div><strong>${r.name}</strong> <span style="float:right; color:gray; font-size:12px;">${r.date}</span></div><div style="color:gold;">${'★'.repeat(r.rating)}</div><p>${r.text}</p>`;
-                            container.appendChild(div);
-                        });
-                    }
-                    switchScreen('reviews-list-screen');
-                });
+                body: JSON.stringify(bookingData)
+            }).then(() => alert("Записано!"));
         }
     </script>
 </body>
