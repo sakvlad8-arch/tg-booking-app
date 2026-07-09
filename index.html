@@ -303,8 +303,24 @@
         }
 
         function submitBooking() {
-            tg.sendData(JSON.stringify(bookingData));
-            tg.close();
+            const serverUrl = 'https://shaved-shoes-except-breakdown.trycloudflare.com/webhook';
+
+            fetch(serverUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bookingData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Запись успешно отправлена!');
+                tg.close();
+            })
+            .catch(error => {
+                alert('Ошибка при отправке: ' + error);
+                console.error('Error:', error);
+            });
         }
     </script>
 </body>
