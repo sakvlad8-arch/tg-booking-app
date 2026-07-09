@@ -204,8 +204,14 @@
         const todayStr = new Date().toISOString().split('T')[0];
         document.getElementById('date-picker').min = todayStr;
 
-        let bookingData = { category: '', service: '', price: '', date: '', time: '' };
+        // Добавляем user_id в объект данных записи
+        let bookingData = { category: '', service: '', price: '', date: '', time: '', user_id: 0 };
         let currentCategoryKey = '';
+
+        // Пытаемся взять реальный Telegram ID клиента
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            bookingData.user_id = tg.initDataUnsafe.user.id;
+        }
 
         const servicesData = {
             gym: { 
@@ -283,6 +289,9 @@
 
         function onDateSelected(val) {
             if (!val) return;
+            // Сохраняем чистую дату для планировщика задач сервера
+            bookingData.raw_date = val; 
+            
             const parts = val.split('-');
             if(parts.length === 3) {
                 const d = new Date(parts[0], parts[1] - 1, parts[2]);
