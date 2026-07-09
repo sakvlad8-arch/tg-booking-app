@@ -145,16 +145,8 @@
 
         <div id="time-slots-container" class="hidden">
             <h3 class="text-xs font-semibold uppercase tracking-wider opacity-60 mb-2">Доступное время:</h3>
-            <div id="slots-grid" class="grid grid-cols-3 gap-2">
-                <button onclick="selectTime('09:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">09:00</button>
-                <button onclick="selectTime('10:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">10:00</button>
-                <button onclick="selectTime('11:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">11:00</button>
-                <button onclick="selectTime('12:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">12:00</button>
-                <button onclick="selectTime('14:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">14:00</button>
-                <button onclick="selectTime('15:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">15:00</button>
-                <button onclick="selectTime('16:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">16:00</button>
-                <button onclick="selectTime('17:00')" class="border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors">17:00</button>
-            </div>
+            <!-- Сетка слотов теперь заполняется автоматически через JavaScript -->
+            <div id="slots-grid" class="grid grid-cols-3 gap-2"></div>
         </div>
     </div>
 
@@ -204,11 +196,9 @@
         const todayStr = new Date().toISOString().split('T')[0];
         document.getElementById('date-picker').min = todayStr;
 
-        // Добавляем user_id в объект данных записи
         let bookingData = { category: '', service: '', price: '', date: '', time: '', user_id: 0 };
         let currentCategoryKey = '';
 
-        // Пытаемся взять реальный Telegram ID клиента
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             bookingData.user_id = tg.initDataUnsafe.user.id;
         }
@@ -279,7 +269,26 @@
             bookingData.service = name;
             bookingData.price = price;
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
+            
+            // Генерируем слоты времени от 10:00 до 22:00 при переходе на экран времени
+            generateTimeSlots();
+            
             document.getElementById('screen-time').classList.remove('hidden');
+        }
+
+        // Автоматическая генерация слотов с 10:00 до 22:00
+        function generateTimeSlots() {
+            const grid = document.getElementById('slots-grid');
+            grid.innerHTML = '';
+            
+            for (let hour = 10; hour <= 22; hour++) {
+                const timeStr = `${hour}:00`;
+                const btn = document.createElement('button');
+                btn.onclick = function() { selectTime(timeStr); };
+                btn.className = 'border border-accent rounded-lg p-2 text-sm text-center bg-secondary hover:bg-[#9DB3D3] hover:text-[#3F1521] transition-colors cursor-pointer';
+                btn.innerText = timeStr;
+                grid.appendChild(btn);
+            }
         }
 
         function backToServices() {
@@ -289,7 +298,6 @@
 
         function onDateSelected(val) {
             if (!val) return;
-            // Сохраняем чистую дату для планировщика задач сервера
             bookingData.raw_date = val; 
             
             const parts = val.split('-');
