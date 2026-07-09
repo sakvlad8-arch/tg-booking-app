@@ -12,7 +12,6 @@
             padding-bottom: 95px;
             transition: background-color 0.3s, color 0.3s;
         }
-        /* ТЕМЫ ОФОРМЛЕНИЯ */
         body.theme-wine { background-color: #3F1521; color: #f4f4f5; }
         body.theme-wine .bg-secondary { background-color: #2D0F18; }
         body.theme-wine .text-accent { color: #9DB3D3; }
@@ -35,16 +34,11 @@
         body.theme-wine .tab-active { color: #9DB3D3; }
         body.theme-dark .tab-active { color: #38bdf8; }
         body.theme-light .tab-active { color: #0d9488; }
-
-        .bg-telegram { background-color: #0088cc; }
-        .bg-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .bg-tiktok { background-color: #010101; border: 1px solid #ff0050; }
-        .bg-youtube { background-color: #ff0000; }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto theme-wine">
 
-    <!-- ЭКРАН РЕГИСТРАЦИИ (БЛОКИРУЮЩИЙ) -->
+    <!-- ЭКРАН РЕГИСТРАЦИИ -->
     <div id="screen-register" class="hidden space-y-5 py-6">
         <div class="text-center">
             <span class="text-4xl">👋</span>
@@ -67,88 +61,69 @@
             <div>
                 <label class="block text-xs font-bold mb-1 opacity-80">Дата рождения:</label>
                 <input type="date" id="reg-birthday" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
-                <p class="text-[10px] opacity-50 mt-1">Дарим подарки и скидки в ваш день! 🎁</p>
             </div>
-            <button onclick="submitRegistration()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm shadow-md cursor-pointer">
-                Завершить регистрацию
-            </button>
+            <button onclick="submitRegistration()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">Завершить регистрацию</button>
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ (СКРЫТ ДО ПРОВЕРКИ) -->
+    <!-- ОКНО ДЛЯ ОТПРАВКИ ОТЗЫВА ПО ССЫЛКЕ -->
+    <div id="screen-leave-review" class="hidden space-y-4 py-4">
+        <h2 class="text-lg font-black text-accent text-center">📝 Оставить отзыв о занятии</h2>
+        <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
+            <p class="text-xs text-center opacity-80">Ваше мнение очень важно!</p>
+            <div class="flex justify-center gap-3 text-2xl" id="review-stars">
+                <span onclick="setReviewRating(1)" class="cursor-pointer star-btn text-zinc-400">★</span>
+                <span onclick="setReviewRating(2)" class="cursor-pointer star-btn text-zinc-400">★</span>
+                <span onclick="setReviewRating(3)" class="cursor-pointer star-btn text-zinc-400">★</span>
+                <span onclick="setReviewRating(4)" class="cursor-pointer star-btn text-zinc-400">★</span>
+                <span onclick="setReviewRating(5)" class="cursor-pointer star-btn text-zinc-400">★</span>
+            </div>
+            <textarea id="review-text" placeholder="Напишите, как всё прошло..." class="w-full p-3 bg-black/20 border border-accent text-xs rounded-xl outline-none h-24 resize-none"></textarea>
+            <button onclick="submitReview()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">Отправить</button>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <div id="app-content" class="hidden">
         
-        <!-- ЭКРАН 0: ГЛАВНАЯ -->
+        <!-- ГЛАВНАЯ -->
         <div id="screen-main" class="screen space-y-5">
             <div class="text-center py-2">
-                <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl shadow-lg border-2 border-accent">🏒</div>
+                <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent">🏒</div>
                 <h1 class="text-2xl font-black tracking-tight">Влад | На связи</h1>
                 <p class="text-xs opacity-60 mt-1">Твой проводник в умный фитнес и хоккей</p>
             </div>
 
             <!-- Цифры -->
-            <div class="grid grid-cols-3 gap-2 text-center">
-                <div class="bg-secondary p-2.5 rounded-xl border border-accent">
-                    <span class="block text-lg font-black text-accent">15 лет</span>
-                    <span class="text-[10px] opacity-60 uppercase font-medium">в хоккее</span>
-                </div>
-                <div class="bg-secondary p-2.5 rounded-xl border border-accent">
-                    <span class="block text-lg font-black text-accent">5 лет</span>
-                    <span class="text-[10px] opacity-60 uppercase font-medium">на льду</span>
-                </div>
-                <div class="bg-secondary p-2.5 rounded-xl border border-accent">
-                    <span class="block text-lg font-black text-accent">100+</span>
-                    <span class="text-[10px] opacity-60 uppercase font-medium">учеников</span>
-                </div>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                <div class="bg-secondary p-2.5 rounded-xl border border-accent"><span class="block text-base font-black text-accent">15 лет</span><span class="opacity-60 text-[9px] uppercase">в хоккее</span></div>
+                <div class="bg-secondary p-2.5 rounded-xl border border-accent"><span class="block text-base font-black text-accent">5 лет</span><span class="opacity-60 text-[9px] uppercase">на льду</span></div>
+                <div class="bg-secondary p-2.5 rounded-xl border border-accent"><span class="block text-base font-black text-accent">100+</span><span class="opacity-60 text-[9px] uppercase">учеников</span></div>
             </div>
 
             <!-- Бэкграунд -->
-            <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
-                <p class="text-xs leading-relaxed opacity-90">
-                    15 лет отыграл на профессиональном уровне в <b>СДЮШОР Юность-Минск</b>. Сейчас выступаю за ХК «Аквалит» и тренирую команду «Золотая шайба». Помогаю встать на коньки с нуля или прокачать мастерство.
-                </p>
+            <div class="bg-secondary p-4 rounded-2xl border border-accent text-xs leading-relaxed opacity-90 shadow-sm">
+                15 лет отыграл на профессиональном уровне в <b>СДЮШОР Юность-Минск</b>. Сейчас выступаю за ХК «Аквалит» и тренирую команду «Золотая шайба». Помогаю встать на коньки с нуля или прокачать мастерство.
             </div>
 
-            <!-- БЛОК ОТЗЫВОВ -->
+            <!-- ЛЕНТА ОТЗЫВОВ -->
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
-                <h3 class="font-bold text-sm uppercase tracking-wider text-accent">💬 Отзывы учеников</h3>
-                
-                <!-- Форма отзыва -->
-                <div class="bg-black/10 p-3 rounded-xl space-y-2 border border-accent/20">
-                    <p class="text-xs font-semibold">Оставить свой отзыв:</p>
-                    <div class="flex gap-2 text-xl" id="review-stars">
-                        <span onclick="setReviewRating(1)" class="cursor-pointer star-btn text-zinc-400">★</span>
-                        <span onclick="setReviewRating(2)" class="cursor-pointer star-btn text-zinc-400">★</span>
-                        <span onclick="setReviewRating(3)" class="cursor-pointer star-btn text-zinc-400">★</span>
-                        <span onclick="setReviewRating(4)" class="cursor-pointer star-btn text-zinc-400">★</span>
-                        <span onclick="setReviewRating(5)" class="cursor-pointer star-btn text-zinc-400">★</span>
-                    </div>
-                    <textarea id="review-text" placeholder="Напишите ваши впечатления..." class="w-full p-2 bg-black/20 border border-accent text-xs rounded-lg outline-none h-16 resize-none"></textarea>
-                    <button onclick="submitReview()" class="btn-primary px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">Отправить отзыв</button>
-                </div>
-
-                <!-- Лента отзывов -->
-                <div id="reviews-feed" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1"><span>💬</span> Отзывы учеников</h3>
+                <div id="reviews-feed" class="space-y-2 max-h-60 overflow-y-auto pr-1">
                     <p class="text-xs opacity-50">Загрузка отзывов...</p>
                 </div>
             </div>
         </div>
 
-        <!-- ЭКРАН 1: СПИСОК УСЛУГ -->
+        <!-- СПИСОК УСЛУГ -->
         <div id="screen-services" class="screen hidden space-y-4">
             <h2 id="category-title" class="text-lg font-black text-accent">Направление</h2>
-            <div class="bg-black/20 border border-accent p-4 rounded-xl space-y-1 shadow-sm">
-                <h4 class="font-bold text-xs uppercase tracking-wider text-accent">🎯 Результат:</h4>
-                <p id="category-result-text" class="text-xs leading-relaxed opacity-90"></p>
-            </div>
-            <div class="bg-secondary border border-accent p-3 rounded-xl space-y-1">
-                <h4 class="font-bold text-[11px] uppercase tracking-wider opacity-60">📍 Локации:</h4>
-                <div id="category-locations" class="text-xs space-y-1"></div>
-            </div>
+            <div class="bg-black/20 border border-accent p-4 rounded-xl text-xs space-y-1"><h4 class="font-bold text-accent">🎯 Результат:</h4><p id="category-result-text"></p></div>
+            <div class="bg-secondary border border-accent p-3 rounded-xl text-xs"><h4 class="font-bold opacity-60">📍 Локации:</h4><div id="category-locations" class="mt-1"></div></div>
             <div id="services-list" class="space-y-3"></div>
         </div>
 
-        <!-- ЭКРАН 2: КАЛЕНДАРЬ И ВРЕМЯ -->
+        <!-- КАЛЕНДАРЬ -->
         <div id="screen-time" class="screen hidden space-y-4">
             <button onclick="backToServices()" class="text-sm text-accent font-medium">← Назад</button>
             <div class="bg-secondary p-3 rounded-xl border border-accent">
@@ -159,7 +134,7 @@
             </div>
         </div>
 
-        <!-- ЭКРАН 3: ПОДТВЕРЖДЕНИЕ -->
+        <!-- ПОДТВЕРЖДЕНИЕ -->
         <div id="screen-confirm" class="screen hidden space-y-4">
             <div class="bg-secondary p-4 rounded-xl space-y-2 text-sm border border-accent">
                 <div><strong>Направление:</strong> <span id="summary-category">-</span></div>
@@ -170,11 +145,11 @@
             <button onclick="submitBooking()" class="btn-primary w-full py-3 rounded-xl font-bold shadow-md cursor-pointer">Подтвердить запись</button>
         </div>
 
-        <!-- ЭКРАН 4: НАСТРОЙКИ (ТЕМЫ) -->
+        <!-- НАСТРОЙКИ -->
         <div id="screen-settings" class="screen hidden space-y-4">
-            <h2 class="text-lg font-black text-accent">⚙️ Настройки приложения</h2>
+            <h2 class="text-lg font-black text-accent">⚙️ Настройки</h2>
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
-                <h3 class="text-xs font-bold uppercase opacity-60">Выберите тему оформления:</h3>
+                <h3 class="text-xs font-bold uppercase opacity-60">Тема оформления:</h3>
                 <div class="space-y-2">
                     <button onclick="changeTheme('theme-wine')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#3F1521] text-[#f4f4f5] border border-zinc-500">🍇 Благородный Винный</button>
                     <button onclick="changeTheme('theme-dark')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#111827] text-[#f9fafb] border border-zinc-700">🏒 Хоккейный Темный</button>
@@ -200,7 +175,7 @@
         tg.ready(); tg.expand();
 
         const serverUrl = 'https://camera-solar-sequences-bottle.trycloudflare.com';
-        let bookingData = { category: '', service: '', price: '', date: '', time: '', user_id: 0 };
+        let bookingData = { category: '', service: '', price: '', date: '', time: '', raw_date: '', user_id: 0 };
         let currentCategoryKey = '';
         let selectedRating = 0;
 
@@ -208,31 +183,36 @@
             bookingData.user_id = tg.initDataUnsafe.user.id;
         }
 
-        // Загрузка темы из памяти
         const savedTheme = localStorage.getItem('vlad_theme') || 'theme-wine';
         changeTheme(savedTheme);
 
-        // ПРОВЕРКА РЕГИСТРАЦИИ ПРИ СТАРТЕ
-        fetch(`${serverUrl}/check_user/${bookingData.user_id}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.registered) {
+        // Проверяем параметры ссылки (переход из рассылки "Оставить отзыв")
+        const urlParams = new URLSearchParams(window.location.search);
+        const action = urlParams.get('action');
+
+        if (action === 'leave_review') {
+            document.getElementById('screen-leave-review').classList.remove('hidden');
+        } else {
+            // Обычная проверка авторизации
+            fetch(`${serverUrl}/check_user/${bookingData.user_id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.registered) {
+                        document.getElementById('app-content').classList.remove('hidden');
+                        document.getElementById('tab-bar').classList.remove('hidden');
+                        loadReviews();
+                    } else {
+                        document.getElementById('screen-register').classList.remove('hidden');
+                    }
+                }).catch(() => {
                     document.getElementById('app-content').classList.remove('hidden');
                     document.getElementById('tab-bar').classList.remove('hidden');
-                    loadReviews();
-                } else {
-                    document.getElementById('screen-register').classList.remove('hidden');
-                }
-            }).catch(() => {
-                document.getElementById('app-content').classList.remove('hidden');
-                document.getElementById('tab-bar').classList.remove('hidden');
-            });
+                });
+        }
 
         function changeTheme(themeName) {
             document.body.className = "p-4 max-w-md mx-auto " + themeName;
             localStorage.setItem('vlad_theme', themeName);
-            
-            // Корректируем цвет таб-бара под светлую/темную тему
             const tabBar = document.getElementById('tab-bar');
             if(tabBar) {
                 if(themeName === 'theme-light') tabBar.style.backgroundColor = '#f1f5f9';
@@ -247,16 +227,13 @@
             const phone = document.getElementById('reg-phone').value.trim();
             const birthday = document.getElementById('reg-birthday').value;
 
-            if(!first_name || !last_name || !phone || !birthday) {
-                alert('Пожалуйста, заполните все поля!'); return;
-            }
+            if(!first_name || !last_name || !phone || !birthday) { alert('Заполните все поля!'); return; }
 
             fetch(`${serverUrl}/register`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ user_id: bookingData.user_id, first_name, last_name, phone, birthday })
-            }).then(res => res.json())
-            .then(() => {
+            }).then(() => {
                 alert('Регистрация успешна!');
                 document.getElementById('screen-register').classList.add('hidden');
                 document.getElementById('app-content').classList.remove('hidden');
@@ -269,26 +246,21 @@
             selectedRating = rating;
             const stars = document.querySelectorAll('.star-btn');
             stars.forEach((star, idx) => {
-                if(idx < rating) star.className = "cursor-pointer star-btn text-amber-400";
-                else star.className = "cursor-pointer star-btn text-zinc-400";
+                star.className = idx < rating ? "cursor-pointer star-btn text-amber-400" : "cursor-pointer star-btn text-zinc-400";
             });
         }
 
         function submitReview() {
             const text = document.getElementById('review-text').value.trim();
-            if(selectedRating === 0 || !text) {
-                alert('Поставьте оценку и напишите текст отзыва!'); return;
-            }
+            if(selectedRating === 0 || !text) { alert('Поставьте оценку и напишите текст!'); return; }
+            
             fetch(`${serverUrl}/review`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ user_id: bookingData.user_id, rating: selectedRating, text })
-            }).then(res => res.json())
-            .then(() => {
-                alert('Спасибо за ваш отзыв!');
-                document.getElementById('review-text').value = '';
-                setReviewRating(0);
-                loadReviews();
+            }).then(() => {
+                alert('Спасибо за отзыв! Приложение закроется.');
+                tg.close();
             });
         }
 
@@ -298,18 +270,11 @@
                 .then(data => {
                     const container = document.getElementById('reviews-feed');
                     container.innerHTML = '';
-                    if(data.length === 0) {
-                        container.innerHTML = '<p class="text-xs opacity-50">Отзывов пока нет. Будьте первым!</p>';
-                        return;
-                    }
+                    if(data.length === 0) { container.innerHTML = '<p class="text-xs opacity-50">Отзывов пока нет.</p>'; return; }
                     data.forEach(r => {
                         const div = document.createElement('div');
                         div.className = 'p-2.5 bg-black/10 rounded-xl text-xs space-y-1';
-                        div.innerHTML = `
-                            <div class="flex justify-between font-bold opacity-90"><span>${r.name}</span><span class="text-gray-400 text-[10px]">${r.date}</span></div>
-                            <div class="text-amber-400 text-[10px]">${"★".repeat(r.rating)}</div>
-                            <p class="opacity-80">${r.text}</p>
-                        `;
+                        div.innerHTML = `<div class="flex justify-between font-bold opacity-90"><span>${r.name}</span><span class="text-gray-400 text-[10px]">${r.date}</span></div><div class="text-amber-400 text-[10px]">${"★".repeat(r.rating)}</div><p class="opacity-80">${r.text}</p>`;
                         container.appendChild(div);
                     });
                 });
@@ -317,7 +282,7 @@
 
         const servicesData = {
             gym: { title: 'Тренажерный зал', startHour: 9, endHour: 21, result: 'Разберем биомеханику, укрепим корсет.', locations: `<a href="#" class="text-blue-400 underline">Gym24 на Немиге</a>`, list: [{ name: 'Персональная тренировка', price: '40 BYN' }] },
-            skating: { title: 'Катание на коньках', startHour: 10, endHour: 22, result: 'Баланс и координация на льду.', locations: `<a href="#" class="text-blue-400 underline">ТРЦ Замок</a>`, list: [{ name: 'Взрослый', price: '55 BYN' }] },
+            skating: { title: 'Катание на коньках', startHour: 10, endHour: 22, result: 'Баланс и координация на льду. Постановка правильного шага.', locations: `<a href="#" class="text-blue-400 underline">ТРЦ Замок</a>`, list: [{ name: 'Взрослый', price: '55 BYN' }] },
             hockey: { title: 'Хоккейное мастерство', startHour: 10, endHour: 22, result: 'Игровой IQ, дриблинг и броски.', locations: `<a href="#" class="text-blue-400 underline">Чижовка-Арена</a>`, list: [{ name: 'Взрослый', price: '55 BYN' }] },
             'dry-ice': { title: 'Броски на сухом льду', startHour: 7, endHour: 22, result: 'Поставим хлесткий и сильный бросок.', locations: `<a href="#" class="text-blue-400 underline">Бросковая зона Кальварийская</a>`, list: [{ name: 'Взрослый', price: '35 BYN' }] }
         };
@@ -357,26 +322,9 @@
         function selectService(name, price) {
             bookingData.service = name; bookingData.price = price;
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
-            generateTimeSlots();
             document.getElementById('screen-time').classList.remove('hidden');
-        }
-
-        function generateTimeSlots() {
-            const grid = document.getElementById('slots-grid'); grid.innerHTML = '';
-            const currentCategory = servicesData[currentCategoryKey];
-            for (let hour = currentCategory.startHour; hour <= currentCategory.endHour; hour++) {
-                const timeStr = `${hour < 10 ? '0' + hour : hour}:00`;
-                const btn = document.createElement('button');
-                btn.onclick = function() { selectTime(timeStr); };
-                btn.className = 'border border-accent rounded-lg p-2 text-sm text-center bg-secondary cursor-pointer';
-                btn.innerText = timeStr;
-                grid.appendChild(btn);
-            }
-        }
-
-        function backToServices() {
-            document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
-            document.getElementById('screen-services').classList.remove('hidden');
+            document.getElementById('time-slots-container').classList.add('hidden');
+            document.getElementById('date-picker').value = ''; 
         }
 
         function onDateSelected(val) {
@@ -385,7 +333,41 @@
             const parts = val.split('-');
             const d = new Date(parts[0], parts[1] - 1, parts[2]);
             bookingData.date = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            document.getElementById('time-slots-container').classList.remove('hidden');
+            
+            // Запрашиваем у бэкенда заблокированные слоты (включая буфер +1/-1 час)
+            fetch(`${serverUrl}/get_blocked_slots/${val}`)
+                .then(res => res.json())
+                .then(data => {
+                    generateTimeSlots(data.blocked_slots);
+                    document.getElementById('time-slots-container').classList.remove('hidden');
+                });
+        }
+
+        function generateTimeSlots(blockedSlots) {
+            const grid = document.getElementById('slots-grid'); grid.innerHTML = '';
+            const currentCategory = servicesData[currentCategoryKey];
+            
+            for (let hour = currentCategory.startHour; hour <= currentCategory.endHour; hour++) {
+                const timeStr = `${hour < 10 ? '0' + hour : hour}:00`;
+                const btn = document.createElement('button');
+                
+                if (blockedSlots.includes(timeStr)) {
+                    // Кнопка заблокирована
+                    btn.className = 'border border-zinc-700 rounded-lg p-2 text-sm text-center bg-zinc-800 text-zinc-500 cursor-not-allowed opacity-40';
+                    btn.disabled = true;
+                } else {
+                    // Кнопка доступна
+                    btn.onclick = function() { selectTime(timeStr); };
+                    btn.className = 'border border-accent rounded-lg p-2 text-sm text-center bg-secondary cursor-pointer hover:border-white';
+                }
+                btn.innerText = timeStr;
+                grid.appendChild(btn);
+            }
+        }
+
+        function backToServices() {
+            document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
+            document.getElementById('screen-services').classList.remove('hidden');
         }
 
         function selectTime(time) {
@@ -403,7 +385,8 @@
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(bookingData)
-            }).then(() => {
+            }).then(res => {
+                if(!res.ok) { alert('Это время только что заняли!'); return; }
                 alert('Запись успешно отправлена!');
                 tg.close();
             });
