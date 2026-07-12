@@ -430,7 +430,52 @@
             document.getElementById('screen-confirm').classList.remove('hidden');
         }
 
-        function submitBooking() { /* ... */ }
+        async function submitBooking() {
+            try {
+                // Показываем индикатор загрузки
+                const confirmBtn = event.target;
+                const originalText = confirmBtn.innerText;
+                confirmBtn.innerText = 'Отправка...';
+                confirmBtn.disabled = true;
+
+                // Отправляем данные на сервер
+                const response = await fetch(`${serverUrl}/webhook`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: bookingData.user_id,
+                        category: bookingData.category,
+                        service: bookingData.service,
+                        price: bookingData.price,
+                        date: bookingData.date,
+                        time: bookingData.time,
+                        raw_date: bookingData.raw_date
+                    })
+                });
+
+                if (response.ok) {
+                    // Успешная запись
+                    tg.showAlert(`✅ Запись подтверждена!\n\n${bookingData.service}\n ${bookingData.date}\n ${bookingData.time}\n💰 ${bookingData.price}`);
+                    
+                    // Возвращаемся на главную
+                    navigateTo('main');
+                } else {
+                    tg.showAlert('❌ Произошла ошибка при записи. Попробуйте еще раз.');
+                }
+            } catch (error) {
+                console.error('Ошибка отправки:', error);
+                tg.showAlert('❌ Ошибка соединения. Проверьте интернет и попробуйте снова.');
+            } finally {
+                // Возвращаем кнопку в исходное состояние
+                const confirmBtn = document.querySelector('#screen-confirm .btn-primary');
+                if (confirmBtn) {
+                    confirmBtn.innerText = 'Подтвердить запись';
+                    confirmBtn.disabled = false;
+                }
+            }
+        }
         
         // Авто-запуск
         const urlParams = new URLSearchParams(window.location.search);
