@@ -112,7 +112,7 @@
         <!-- ГЛАВНАЯ -->
         <div id="screen-main" class="screen space-y-5">
             <div class="text-center py-2">
-                <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent">🏒</div>
+                <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent"></div>
                 <h1 class="text-2xl font-black tracking-tight">Влад | На связи</h1>
                 <p class="text-xs opacity-60 mt-1">Твой проводник в умный фитнес и хоккей</p>
             </div>
@@ -318,16 +318,19 @@
             renderCalendar();
         }
 
-        function loadTimeSlots() {
+        async function loadTimeSlots() {
             document.getElementById('time-slots-container').classList.remove('hidden');
             const container = document.getElementById('slots-grid');
             container.innerHTML = '<p class="col-span-3 text-xs opacity-50 text-center py-2">Загрузка...</p>';
 
-            // Имитация загрузки занятых слотов
-            setTimeout(() => {
-                const blocked = []; // Можно получить с сервера
-                generateTimeSlots(blocked);
-            }, 300);
+            try {
+                const response = await fetch(`${serverUrl}/get_blocked_slots/${bookingData.raw_date}`);
+                const data = await response.json();
+                generateTimeSlots(data.blocked_slots || []);
+            } catch (error) {
+                console.error('Ошибка загрузки слотов:', error);
+                generateTimeSlots([]); // Если ошибка - показываем все слоты как свободные
+            }
         }
 
         // ===== ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ =====
@@ -336,7 +339,10 @@
             const activeTab = document.getElementById(`tab-${target}`); if(activeTab) activeTab.classList.add('tab-active');
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
             
-            if (target === 'main') { document.getElementById('screen-main').classList.remove('hidden'); loadReviews(); }
+            if (target === 'main') { 
+                document.getElementById('screen-main').classList.remove('hidden'); 
+                loadReviews(); 
+            }
             else if (target === 'settings') { document.getElementById('screen-settings').classList.remove('hidden'); }
             else {
                 currentCategoryKey = target; const category = servicesData[target]; bookingData.category = category.title;
@@ -388,10 +394,129 @@
         };
 
         function changeTheme(themeName) { document.body.className = "p-4 max-w-md mx-auto " + themeName; localStorage.setItem('vlad_theme', themeName); }
-        function submitRegistration() { /* ... код регистрации ... */ }
-        function setReviewRating(rating) { /* ... */ }
-        function submitReview() { /* ... */ }
-        function loadReviews() { /* ... */ }
+        
+        async function submitRegistration() {
+            const name = document.getElementById('reg-name').value.trim();
+            const surname = document.getElementById('reg-surname').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const birthday = document.getElementById('reg-birthday').value;
+
+            if (!name || !surname || !phone || !birthday) {
+                tg.showAlert('❌ Пожалуйста, заполните все поля!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${serverUrl}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: bookingData.user_id,
+                        first_name: name,
+                        last_name: surname,
+                        phone: phone,
+                        birthday: birthday
+                    })
+                });
+
+                if (response.ok) {
+                    tg.showAlert('✅ Регистрация успешна!');
+                    document.getElementById('screen-register').classList.add('hidden');
+                    document.getElementById('app-content').classList.remove('hidden');
+                    document.getElementById('tab-bar').classList.remove('hidden');
+                    loadReviews();
+                } else {
+                    tg.showAlert('❌ Ошибка регистрации. Попробуйте еще раз.');
+                }
+            } catch (error) {
+                console.error('Ошибка регистрации:', error);
+                tg.showAlert('❌ Ошибка соединения. Проверьте интернет.');
+            }
+        }
+
+        function setReviewRating(rating) {
+            selectedRating = rating;
+            const stars = document.querySelectorAll('.star-btn');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('text-zinc-400');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.remove('text-yellow-400');
+                    star.classList.add('text-zinc-400');
+                }
+            });
+        }
+
+        async function submitReview() {
+            const text = document.getElementById('review-text').value.trim();
+            
+            if (selectedRating === 0) {
+                tg.showAlert('❌ Выберите оценку!');
+                return;
+            }
+            if (!text) {
+                tg.showAlert('❌ Напишите текст отзыва!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${serverUrl}/review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: bookingData.user_id,
+                        rating: selectedRating,
+                        text: text
+                    })
+                });
+
+                if (response.ok) {
+                    tg.showAlert('✅ Спасибо за отзыв!');
+                    document.getElementById('review-text').value = '';
+                    selectedRating = 0;
+                    document.querySelectorAll('.star-btn').forEach(star => {
+                        star.classList.remove('text-yellow-400');
+                        star.classList.add('text-zinc-400');
+                    });
+                    document.getElementById('screen-leave-review').classList.add('hidden');
+                } else {
+                    tg.showAlert('❌ Ошибка отправки. Попробуйте еще раз.');
+                }
+            } catch (error) {
+                console.error('Ошибка отправки отзыва:', error);
+                tg.showAlert('❌ Ошибка соединения.');
+            }
+        }
+
+        async function loadReviews() {
+            const container = document.getElementById('reviews-feed');
+            container.innerHTML = '<p class="text-xs opacity-50">Загрузка отзывов...</p>';
+            
+            try {
+                const response = await fetch(`${serverUrl}/reviews`);
+                const reviews = await response.json();
+                
+                if (reviews.length === 0) {
+                    container.innerHTML = '<p class="text-xs opacity-50">Пока нет отзывов</p>';
+                    return;
+                }
+                
+                container.innerHTML = reviews.map(r => `
+                    <div class="bg-black/20 p-2 rounded-lg border border-accent">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-xs">${r.name}</span>
+                            <span class="text-xs">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+                        </div>
+                        <p class="text-xs opacity-80">${r.text}</p>
+                        <p class="text-[10px] opacity-50 mt-1">${r.date}</p>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Ошибка загрузки отзывов:', error);
+                container.innerHTML = '<p class="text-xs opacity-50">Не удалось загрузить отзывы</p>';
+            }
+        }
 
         function generateTimeSlots(blockedSlots) {
             const container = document.getElementById('slots-grid');
@@ -433,7 +558,7 @@
         async function submitBooking() {
             try {
                 // Показываем индикатор загрузки
-                const confirmBtn = event.target;
+                const confirmBtn = document.querySelector('#screen-confirm .btn-primary');
                 const originalText = confirmBtn.innerText;
                 confirmBtn.innerText = 'Отправка...';
                 confirmBtn.disabled = true;
@@ -457,7 +582,7 @@
 
                 if (response.ok) {
                     // Успешная запись
-                    tg.showAlert(`✅ Запись подтверждена!\n\n${bookingData.service}\n ${bookingData.date}\n ${bookingData.time}\n💰 ${bookingData.price}`);
+                    tg.showAlert(`✅ Запись подтверждена!\n\n${bookingData.service}\n${bookingData.date}\n${bookingData.time}\n💰 ${bookingData.price}`);
                     
                     // Возвращаемся на главную
                     navigateTo('main');
@@ -479,8 +604,25 @@
         
         // Авто-запуск
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('action') === 'leave_review') { document.getElementById('screen-leave-review').classList.remove('hidden'); } 
-        else { fetch(`${serverUrl}/check_user/${bookingData.user_id}`).then(res => res.json()).then(data => { if (data.registered) { document.getElementById('app-content').classList.remove('hidden'); document.getElementById('tab-bar').classList.remove('hidden'); loadReviews(); } else { document.getElementById('screen-register').classList.remove('hidden'); } }).catch(() => { document.getElementById('app-content').classList.remove('hidden'); document.getElementById('tab-bar').classList.remove('hidden'); }); }
+        if (urlParams.get('action') === 'leave_review') { 
+            document.getElementById('screen-leave-review').classList.remove('hidden'); 
+        } else { 
+            fetch(`${serverUrl}/check_user/${bookingData.user_id}`)
+                .then(res => res.json())
+                .then(data => { 
+                    if (data.registered) { 
+                        document.getElementById('app-content').classList.remove('hidden'); 
+                        document.getElementById('tab-bar').classList.remove('hidden'); 
+                        loadReviews(); 
+                    } else { 
+                        document.getElementById('screen-register').classList.remove('hidden'); 
+                    } 
+                })
+                .catch(() => { 
+                    document.getElementById('app-content').classList.remove('hidden'); 
+                    document.getElementById('tab-bar').classList.remove('hidden'); 
+                }); 
+        }
     </script>
 </body>
 </html>
