@@ -7,11 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            padding-bottom: 95px;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding-bottom: 95px; transition: background-color 0.3s, color 0.3s; }
         body.theme-wine { background-color: #3F1521; color: #f4f4f5; }
         body.theme-wine .bg-secondary { background-color: #2D0F18; }
         body.theme-wine .text-accent { color: #9DB3D3; }
@@ -46,30 +42,18 @@
             <p class="text-xs opacity-70 mt-1">Для доступа к записям пройдите быструю регистрацию</p>
         </div>
         <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
-            <div>
-                <label class="block text-xs font-bold mb-1 opacity-80">Имя:</label>
-                <input type="text" id="reg-name" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold mb-1 opacity-80">Фамилия:</label>
-                <input type="text" id="reg-surname" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold mb-1 opacity-80">Номер телефона:</label>
-                <input type="tel" id="reg-phone" placeholder="+375" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
-            </div>
-            <div>
-                <label class="block text-xs font-bold mb-1 opacity-80">Дата рождения:</label>
-                <input type="date" id="reg-birthday" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
-            </div>
-            <button onclick="submitRegistration()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">Завершить регистрацию</button>
+            <input type="text" id="reg-name" placeholder="Имя" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
+            <input type="text" id="reg-surname" placeholder="Фамилия" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
+            <input type="tel" id="reg-phone" placeholder="Номер телефона (+375...)" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
+            <input type="date" id="reg-birthday" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
+            <button onclick="submitRegistration()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm">Завершить регистрацию</button>
         </div>
     </div>
 
-    <!-- ОКНО ДЛЯ ОТПРАВКИ ОТЗЫВА -->
+    <!-- ОКНО ОТЗЫВА -->
     <div id="screen-leave-review" class="hidden space-y-4 py-4">
-        <h2 class="text-lg font-black text-accent text-center">📝 Оставить отзыв о занятии</h2>
-        <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
+        <h2 class="text-lg font-black text-accent text-center">📝 Оставить отзыв</h2>
+        <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3">
             <div class="flex justify-center gap-3 text-2xl" id="review-stars">
                 <span onclick="setReviewRating(1)" class="cursor-pointer star-btn text-zinc-400">★</span>
                 <span onclick="setReviewRating(2)" class="cursor-pointer star-btn text-zinc-400">★</span>
@@ -77,53 +61,74 @@
                 <span onclick="setReviewRating(4)" class="cursor-pointer star-btn text-zinc-400">★</span>
                 <span onclick="setReviewRating(5)" class="cursor-pointer star-btn text-zinc-400">★</span>
             </div>
-            <textarea id="review-text" placeholder="Напишите, как всё прошло..." class="w-full p-3 bg-black/20 border border-accent text-xs rounded-xl outline-none h-24 resize-none"></textarea>
-            <button onclick="submitReview()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">Отправить</button>
+            <textarea id="review-text" placeholder="Ваше мнение..." class="w-full p-3 bg-black/20 border border-accent text-xs rounded-xl h-24"></textarea>
+            <button onclick="submitReview()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm">Отправить</button>
         </div>
     </div>
 
     <!-- ОСНОВНОЙ КОНТЕНТ -->
     <div id="app-content" class="hidden">
-        <!-- (Твой существующий контент экранов остается здесь) -->
         <div id="screen-main" class="screen space-y-5">
             <div class="text-center py-2">
                 <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent">🏒</div>
                 <h1 class="text-2xl font-black tracking-tight">Влад | На связи</h1>
             </div>
-            <!-- ... остальные блоки экрана main ... -->
-            <div id="reviews-feed" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
+            <div id="reviews-feed" class="bg-secondary p-4 rounded-2xl border border-accent space-y-3">
+                <h3 class="font-bold text-sm uppercase text-accent">Отзывы учеников</h3>
+            </div>
         </div>
-        <!-- Экраны: screen-services, screen-time, screen-confirm, screen-settings -->
+
+        <div id="screen-services" class="screen hidden space-y-4">
+            <h2 id="category-title" class="text-lg font-black text-accent">Направление</h2>
+            <div id="services-list" class="space-y-3"></div>
+        </div>
+
+        <div id="screen-time" class="screen hidden space-y-4">
+            <button onclick="backToServices()" class="text-sm text-accent">← Назад</button>
+            <input type="date" id="date-picker" onchange="onDateSelected(this.value)" class="w-full p-3 rounded-xl bg-secondary border border-accent">
+            <div id="time-slots-container" class="grid grid-cols-3 gap-2"></div>
+        </div>
+
+        <div id="screen-confirm" class="screen hidden space-y-4">
+            <div class="bg-secondary p-4 rounded-xl border border-accent text-sm">
+                <p><strong>Услуга:</strong> <span id="summary-service">-</span></p>
+                <p><strong>Дата:</strong> <span id="summary-datetime">-</span></p>
+            </div>
+            <button onclick="submitBooking()" class="btn-primary w-full py-3 rounded-xl font-bold">Подтвердить</button>
+        </div>
+
+        <div id="screen-settings" class="screen hidden space-y-4">
+            <button onclick="changeTheme('theme-wine')" class="w-full p-3 rounded-xl bg-[#3F1521] text-white">Винная</button>
+            <button onclick="changeTheme('theme-dark')" class="w-full p-3 rounded-xl bg-[#111827] text-white">Темная</button>
+        </div>
     </div>
 
     <!-- ТАБ-БАР -->
-    <div id="tab-bar" class="hidden fixed bottom-0 left-0 right-0 bg-[#2D0F18] border-t border-[rgba(157,179,211,0.15)] px-2 py-2 flex justify-around items-center text-[10px] z-50">
-        <!-- Твои кнопки таб-бара -->
+    <div id="tab-bar" class="hidden fixed bottom-0 left-0 right-0 bg-[#2D0F18] border-t px-2 py-2 flex justify-around items-center text-[10px] z-50">
+        <div onclick="navigateTo('main')" id="tab-main" class="flex flex-col items-center"><span>👤</span>Главная</div>
+        <div onclick="navigateTo('gym')" class="flex flex-col items-center"><span>🏋️</span>Зал</div>
+        <div onclick="navigateTo('skating')" class="flex flex-col items-center"><span>⛸️</span>Коньки</div>
+        <div onclick="navigateTo('hockey')" class="flex flex-col items-center"><span>🏒</span>Хоккей</div>
+        <div onclick="navigateTo('settings')" class="flex flex-col items-center"><span>⚙️</span>Настройки</div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
         const serverUrl = 'https://vlad-coaching.onrender.com';
-        let bookingData = { category: '', service: '', price: '', date: '', time: '', raw_date: '', user_id: 0 };
-        
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            bookingData.user_id = tg.initDataUnsafe.user.id;
-        }
+        let bookingData = { user_id: tg.initDataUnsafe?.user?.id };
 
-        // Логика проверки регистрации
-        async function checkUserRegistration() {
+        // ЛОГИКА ОДНОКРАТНОЙ РЕГИСТРАЦИИ
+        async function checkAccess() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('action') === 'leave_review') {
                 document.getElementById('screen-leave-review').classList.remove('hidden');
                 return;
             }
 
-            if (!bookingData.user_id) return;
-
             try {
-                const response = await fetch(`${serverUrl}/check_user/${bookingData.user_id}`);
-                const data = await response.json();
+                const res = await fetch(`${serverUrl}/check_user/${bookingData.user_id}`);
+                const data = await res.json();
                 if (data.registered) {
                     document.getElementById('app-content').classList.remove('hidden');
                     document.getElementById('tab-bar').classList.remove('hidden');
@@ -132,15 +137,25 @@
                     document.getElementById('screen-register').classList.remove('hidden');
                 }
             } catch (e) {
-                console.error("Ошибка сети:", e);
                 document.getElementById('app-content').classList.remove('hidden');
-                document.getElementById('tab-bar').classList.remove('hidden');
             }
         }
 
-        checkUserRegistration();
+        function submitRegistration() {
+            const data = {
+                user_id: bookingData.user_id,
+                first_name: document.getElementById('reg-name').value,
+                last_name: document.getElementById('reg-surname').value,
+                phone: document.getElementById('reg-phone').value,
+                birthday: document.getElementById('reg-birthday').value
+            };
+            fetch(`${serverUrl}/register`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+            .then(() => { location.reload(); });
+        }
 
-        // ... (все остальные твои функции: changeTheme, submitRegistration, и т.д.) ...
+        // Остальной функционал (navigateTo, submitBooking и т.д.) сохраняется в твоем коде
+        checkAccess();
+        // ... (добавь здесь свои функции навигации и работы с API из старого кода)
     </script>
 </body>
 </html>
