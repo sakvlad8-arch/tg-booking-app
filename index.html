@@ -13,23 +13,62 @@
         body.theme-wine .text-accent { color: #9DB3D3; }
         body.theme-wine .btn-primary { background-color: #9DB3D3; color: #3F1521; }
         body.theme-wine .border-accent { border-color: rgba(157, 179, 211, 0.3); }
+        body.theme-wine .cal-today { color: #9DB3D3; }
 
         body.theme-dark { background-color: #111827; color: #f9fafb; }
         body.theme-dark .bg-secondary { background-color: #1f2937; }
         body.theme-dark .text-accent { color: #38bdf8; }
         body.theme-dark .btn-primary { background-color: #38bdf8; color: #111827; }
         body.theme-dark .border-accent { border-color: rgba(56, 189, 248, 0.3); }
+        body.theme-dark .cal-today { color: #38bdf8; }
 
         body.theme-light { background-color: #f0fdfa; color: #111827; }
         body.theme-light .bg-secondary { background-color: #ffffff; border: 1px solid #e2e8f0; }
         body.theme-light .text-accent { color: #0d9488; }
         body.theme-light .btn-primary { background-color: #0d9488; color: #ffffff; }
         body.theme-light .border-accent { border-color: #cbd5e1; }
+        body.theme-light .cal-today { color: #0d9488; }
 
         .tab-active { font-weight: bold; }
         body.theme-wine .tab-active { color: #9DB3D3; }
         body.theme-dark .tab-active { color: #38bdf8; }
         body.theme-light .tab-active { color: #0d9488; }
+
+        /* Календарь */
+        .calendar { user-select: none; }
+        .cal-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .cal-day:hover:not(.cal-disabled):not(.cal-empty) {
+            background: rgba(157, 179, 211, 0.15);
+        }
+        .cal-day.cal-selected {
+            background: var(--accent-color, #9DB3D3) !important;
+            color: #fff !important;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .cal-day.cal-disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+        }
+        .cal-day.cal-today {
+            font-weight: bold;
+        }
+        .cal-day.cal-empty {
+            cursor: default;
+        }
+        body.theme-wine { --accent-color: #9DB3D3; }
+        body.theme-dark { --accent-color: #38bdf8; }
+        body.theme-light { --accent-color: #0d9488; }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto theme-wine">
@@ -108,11 +147,37 @@
             <div id="services-list" class="space-y-3"></div>
         </div>
 
-        <!-- ВРЕМЯ -->
+        <!-- ВРЕМЯ С КАЛЕНДАРЁМ -->
         <div id="screen-time" class="screen hidden space-y-4">
             <button onclick="backToSelectService()" class="text-sm text-accent font-medium">← Назад</button>
-            <div class="bg-secondary p-3 rounded-xl border border-accent"><input type="date" id="date-picker" onchange="onDateSelected(this.value)" class="w-full bg-transparent font-bold outline-none block text-white"></div>
-            <div id="time-slots-container" class="hidden"><div id="slots-grid" class="grid grid-cols-3 gap-2"></div></div>
+            
+            <!-- Кастомный календарь -->
+            <div class="calendar bg-secondary p-3 rounded-2xl border border-accent shadow-md">
+                <!-- Заголовок месяца -->
+                <div class="flex items-center justify-between mb-3">
+                    <button onclick="calPrevMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/20 text-accent text-lg font-bold">‹</button>
+                    <div id="cal-month-title" class="font-bold text-sm uppercase tracking-wide text-accent"></div>
+                    <button onclick="calNextMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/20 text-accent text-lg font-bold">›</button>
+                </div>
+                <!-- Дни недели -->
+                <div class="grid grid-cols-7 gap-1 mb-1">
+                    <div class="text-center text-[10px] font-bold opacity-50 uppercase">Пн</div>
+                    <div class="text-center text-[10px] font-bold opacity-50 uppercase">Вт</div>
+                    <div class="text-center text-[10px] font-bold opacity-50 uppercase">Ср</div>
+                    <div class="text-center text-[10px] font-bold opacity-50 uppercase">Чт</div>
+                    <div class="text-center text-[10px] font-bold opacity-50 uppercase">Пт</div>
+                    <div class="text-center text-[10px] font-bold opacity-50 uppercase text-red-400/60">Сб</div>
+                    <div class="text-center text-[10px] font-bold opacity-50 uppercase text-red-400/60">Вс</div>
+                </div>
+                <!-- Сетка дней -->
+                <div id="cal-grid" class="grid grid-cols-7 gap-1"></div>
+            </div>
+
+            <!-- Выбор времени -->
+            <div id="time-slots-container" class="hidden">
+                <h3 class="text-sm font-bold text-accent mb-2">🕐 Выберите время</h3>
+                <div id="slots-grid" class="grid grid-cols-3 gap-2"></div>
+            </div>
         </div>
 
         <!-- ПОДТВЕРЖДЕНИЕ -->
@@ -160,7 +225,112 @@
         const savedTheme = localStorage.getItem('vlad_theme') || 'theme-wine';
         changeTheme(savedTheme);
 
-        // Логика переключения экранов
+        // ===== КАЛЕНДАРЬ =====
+        const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        let calYear, calMonth, calSelectedDate = null;
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        function initCalendar() {
+            calYear = today.getFullYear();
+            calMonth = today.getMonth();
+            calSelectedDate = null;
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            document.getElementById('cal-month-title').innerText = `${monthNames[calMonth]} ${calYear}`;
+            const grid = document.getElementById('cal-grid');
+            grid.innerHTML = '';
+
+            const firstDay = new Date(calYear, calMonth, 1);
+            let startDay = firstDay.getDay();
+            if (startDay === 0) startDay = 7; // Пн=1
+            startDay--; // 0-based
+
+            const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+            // Пустые ячейки до первого дня
+            for (let i = 0; i < startDay; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cal-day cal-empty';
+                grid.appendChild(cell);
+            }
+
+            // Дни месяца
+            for (let d = 1; d <= daysInMonth; d++) {
+                const cell = document.createElement('div');
+                const cellDate = new Date(calYear, calMonth, d);
+                cellDate.setHours(0,0,0,0);
+                cell.className = 'cal-day';
+                cell.innerText = d;
+
+                // Прошедшие дни — недоступны
+                if (cellDate < today) {
+                    cell.classList.add('cal-disabled');
+                } else {
+                    cell.onclick = () => selectCalendarDate(calYear, calMonth, d);
+                }
+
+                // Сегодняшний день
+                if (cellDate.getTime() === today.getTime()) {
+                    cell.classList.add('cal-today');
+                }
+
+                // Выбранный день
+                if (calSelectedDate && cellDate.getTime() === calSelectedDate.getTime()) {
+                    cell.classList.add('cal-selected');
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+
+        function selectCalendarDate(y, m, d) {
+            calSelectedDate = new Date(y, m, d);
+            calSelectedDate.setHours(0,0,0,0);
+            renderCalendar();
+
+            const dateStr = `${String(d).padStart(2,'0')}.${String(m+1).padStart(2,'0')}.${y}`;
+            bookingData.date = dateStr;
+            bookingData.raw_date = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+            // Загружаем слоты времени
+            loadTimeSlots();
+        }
+
+        function calPrevMonth() {
+            calMonth--;
+            if (calMonth < 0) { calMonth = 11; calYear--; }
+            // Не даём уйти в прошлое
+            const minDate = new Date(today.getFullYear(), today.getMonth(), 1);
+            const curFirst = new Date(calYear, calMonth, 1);
+            if (curFirst < minDate) {
+                calMonth = today.getMonth();
+                calYear = today.getFullYear();
+            }
+            renderCalendar();
+        }
+
+        function calNextMonth() {
+            calMonth++;
+            if (calMonth > 11) { calMonth = 0; calYear++; }
+            renderCalendar();
+        }
+
+        function loadTimeSlots() {
+            document.getElementById('time-slots-container').classList.remove('hidden');
+            const container = document.getElementById('slots-grid');
+            container.innerHTML = '<p class="col-span-3 text-xs opacity-50 text-center py-2">Загрузка...</p>';
+
+            // Имитация загрузки занятых слотов
+            setTimeout(() => {
+                const blocked = []; // Можно получить с сервера
+                generateTimeSlots(blocked);
+            }, 300);
+        }
+
+        // ===== ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ =====
         function navigateTo(target) {
             document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('tab-active'));
             const activeTab = document.getElementById(`tab-${target}`); if(activeTab) activeTab.classList.add('tab-active');
@@ -204,10 +374,12 @@
         function selectService(name, price) { 
             bookingData.service = name; bookingData.price = price; 
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden')); 
-            document.getElementById('screen-time').classList.remove('hidden'); 
+            document.getElementById('screen-time').classList.remove('hidden');
+            initCalendar();
+            document.getElementById('time-slots-container').classList.add('hidden');
         }
 
-        // Остальные функции (регистрация, отзывы, время, подтверждение) остаются без изменений
+        // ===== ДАННЫЕ УСЛУГ =====
         const servicesData = {
             gym: { title: 'Тренажерный зал', startHour: 9, endHour: 21, result: 'Разберем биомеханику, укрепим корсет.', locations: `<a href="#" class="text-blue-400 underline">Gym24 на Немиге</a>`, list: [{ name: 'Персональная тренировка', price: '40 BYN' }] },
             skating: { title: 'Катание на коньках', startHour: 10, endHour: 22, result: 'Баланс и координация на льду. Постановка правильного шага.', locations: `<a href="#" class="text-blue-400 underline">ТРЦ Замок</a>`, list: [{ name: 'Взрослый', price: '55 BYN' }] },
@@ -220,9 +392,44 @@
         function setReviewRating(rating) { /* ... */ }
         function submitReview() { /* ... */ }
         function loadReviews() { /* ... */ }
-        function onDateSelected(val) { /* ... */ }
-        function generateTimeSlots(blockedSlots) { /* ... */ }
-        function selectTime(time) { /* ... */ }
+
+        function generateTimeSlots(blockedSlots) {
+            const container = document.getElementById('slots-grid');
+            container.innerHTML = '';
+            const cat = servicesData[currentCategoryKey];
+            const startH = cat.startHour;
+            const endH = cat.endHour;
+
+            for (let h = startH; h < endH; h++) {
+                for (let m of [0, 30]) {
+                    const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+                    const btn = document.createElement('button');
+                    btn.className = 'bg-secondary border border-accent rounded-xl py-2.5 text-sm font-bold cursor-pointer transition';
+                    btn.innerText = timeStr;
+
+                    const isBlocked = blockedSlots.includes(timeStr);
+                    if (isBlocked) {
+                        btn.classList.add('opacity-30');
+                        btn.style.cursor = 'not-allowed';
+                        btn.disabled = true;
+                    } else {
+                        btn.onclick = () => selectTime(timeStr);
+                    }
+                    container.appendChild(btn);
+                }
+            }
+        }
+
+        function selectTime(time) {
+            bookingData.time = time;
+            document.getElementById('summary-category').innerText = bookingData.category;
+            document.getElementById('summary-service').innerText = bookingData.service;
+            document.getElementById('summary-price').innerText = bookingData.price;
+            document.getElementById('summary-datetime').innerText = `${bookingData.date} в ${bookingData.time}`;
+            document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
+            document.getElementById('screen-confirm').classList.remove('hidden');
+        }
+
         function submitBooking() { /* ... */ }
         
         // Авто-запуск
