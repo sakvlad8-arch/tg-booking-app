@@ -20,7 +20,7 @@ app.add_middleware(
 
 BOT_TOKEN = "8937187144:AAHWkS3gh5FZC7lwXkJpFCdKnL5KNhBXVyU"
 ADMIN_CHAT_ID = 788136689
-WEB_APP_URL = "https://vlad-sakik.github.io/tg-booking-app/" 
+WEB_APP_URL = "https://vlad-sakik.github.io/tg-booking-app/"
 
 # === ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ ===
 def init_db():
@@ -60,9 +60,9 @@ class ReviewData(BaseModel):
 def send_telegram_message(chat_id: int, text: str):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
-    try: 
+    try:
         requests.post(url, json=payload)
-    except Exception as e: 
+    except Exception as e:
         print(f"Ошибка TG: {e}")
 
 # === ЭНДПОИНТЫ ===
@@ -129,6 +129,7 @@ def get_reviews():
     conn.close()
     return [{"name": r[0], "rating": r[1], "text": r[2], "date": r[3]} for r in rows]
 
+# === ЗАПУСК СЕРВЕРА ===
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run("main:app", host='0.0.0.0', port=port)
