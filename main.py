@@ -74,7 +74,6 @@ def get_location(category: str) -> str:
     locs = {
         "gym": "Gym24 на Немиге",
         "skating": "ТРЦ Замок",
-        "hockey": "Чижовка-Арена",
         "dry-ice": "Бросковая зона на Кальварийской"
     }
     return locs.get(category, "Уточняйте у тренера")
@@ -109,7 +108,7 @@ def check_reminders():
             send_telegram_message(user_id, msg)
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(check_reminders, 'interval', minutes=30) # Проверка каждые 30 минут
+scheduler.add_job(check_reminders, 'interval', minutes=30)
 scheduler.start()
 
 # === ЭНДПОИНТЫ ===
@@ -141,11 +140,11 @@ def get_blocked_slots(date_str: str):
     booked_times = [row[0] for row in cursor.fetchall()]
     conn.close()
 
-    # Логика "дороги": если запись в 10:00, блокируем 10:30, 11:00, 11:30. Следующая доступна в 12:00.
+    # Логика "дороги": блокируем следующие 3 слота по 30 мин (1.5 часа буфер)
     expanded_blocked = set(booked_times)
     for t in booked_times:
         h, m = map(int, t.split(':'))
-        for i in range(1, 4): # Блокируем следующие 3 слота по 30 мин (1.5 часа буфер)
+        for i in range(1, 4):
             new_m = m + 30
             new_h = h
             if new_m == 60:
