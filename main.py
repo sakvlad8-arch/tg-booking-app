@@ -20,7 +20,6 @@ app.add_middleware(
 
 BOT_TOKEN = "8937187144:AAHWkS3gh5FZC7lwXkJpFCdKnL5KNhBXVyU"
 ADMIN_CHAT_ID = 788136689
-# Исправлено на верное имя репозитория
 WEB_APP_URL = "https://vlad-sakik.github.io/tg-booking-app/" 
 
 # === ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ ===
@@ -61,8 +60,10 @@ class ReviewData(BaseModel):
 def send_telegram_message(chat_id: int, text: str):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
-    try: requests.post(url, json=payload)
-    except Exception as e: print(f"Ошибка TG: {e}")
+    try: 
+        requests.post(url, json=payload)
+    except Exception as e: 
+        print(f"Ошибка TG: {e}")
 
 # === ЭНДПОИНТЫ ===
 @app.get("/check_user/{user_id}")
@@ -109,7 +110,6 @@ async def receive_booking(data: BookingData):
 def add_review(data: ReviewData):
     conn = sqlite3.connect("vlad_coaching.db")
     cursor = conn.cursor()
-    # Подтягиваем имя из таблицы пользователей
     cursor.execute("SELECT first_name FROM users WHERE user_id = ?", (data.user_id,))
     user = cursor.fetchone()
     name = user[0] if user else "Аноним"
