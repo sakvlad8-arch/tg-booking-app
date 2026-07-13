@@ -22,7 +22,7 @@ BOT_TOKEN = "8937187144:AAHWkS3gh5FZC7lwXkJpFCdKnL5KNhBXVyU"
 ADMIN_CHAT_ID = 788136689
 WEB_APP_URL = "https://vlad-sakik.github.io/tg-booking-app/"
 
-# === ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ ===
+# Инициализация базы данных
 def init_db():
     conn = sqlite3.connect("vlad_coaching.db")
     cursor = conn.cursor()
@@ -34,7 +34,7 @@ def init_db():
 
 init_db()
 
-# === МОДЕЛИ ДАННЫХ ===
+# Модели данных
 class RegisterData(BaseModel):
     user_id: int
     first_name: str
@@ -56,7 +56,7 @@ class ReviewData(BaseModel):
     rating: int
     text: str
 
-# === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
+# Вспомогательные функции
 def send_telegram_message(chat_id: int, text: str):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
@@ -65,7 +65,7 @@ def send_telegram_message(chat_id: int, text: str):
     except Exception as e:
         print(f"Ошибка TG: {e}")
 
-# === ЭНДПОИНТЫ ===
+# Эндпоинты
 @app.get("/check_user/{user_id}")
 def check_user(user_id: int):
     conn = sqlite3.connect("vlad_coaching.db")
@@ -129,7 +129,7 @@ def get_reviews():
     conn.close()
     return [{"name": r[0], "rating": r[1], "text": r[2], "date": r[3]} for r in rows]
 
-# === ЗАПУСК СЕРВЕРА ===
+# Запуск сервера
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run("main:app", host='0.0.0.0', port=port)
