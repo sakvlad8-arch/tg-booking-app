@@ -35,30 +35,10 @@
         body.theme-light .tab-active { color: #0d9488; }
 
         .calendar { user-select: none; }
-        .cal-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .cal-day:hover:not(.cal-disabled):not(.cal-empty) {
-            background: rgba(157, 179, 211, 0.15);
-        }
-        .cal-day.cal-selected {
-            background: var(--accent-color, #9DB3D3) !important;
-            color: #fff !important;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        .cal-day.cal-disabled {
-            opacity: 0.25;
-            cursor: not-allowed;
-        }
+        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+        .cal-day:hover:not(.cal-disabled):not(.cal-empty) { background: rgba(157, 179, 211, 0.15); }
+        .cal-day.cal-selected { background: var(--accent-color, #9DB3D3) !important; color: #fff !important; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .cal-day.cal-disabled { opacity: 0.25; cursor: not-allowed; }
         .cal-day.cal-today { font-weight: bold; }
         .cal-day.cal-empty { cursor: default; }
         .cal-day.cal-weekend { color: #f87171; }
@@ -66,89 +46,19 @@
         body.theme-dark { --accent-color: #38bdf8; }
         body.theme-light { --accent-color: #0d9488; }
 
-        .location-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 10px;
-            background: rgba(157, 179, 211, 0.1);
-            border: 1px solid rgba(157, 179, 211, 0.2);
-            color: var(--accent-color, #9DB3D3);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 12px;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .location-link:hover { background: rgba(157, 179, 211, 0.2); transform: translateX(2px); }
-        .location-link:active { transform: scale(0.97); }
-
-        .subscription-tag {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 8px;
-            font-size: 9px;
-            font-weight: bold;
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-            margin-left: 6px;
-            text-transform: uppercase;
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto;
-        }
-        .avatar-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: rgba(157, 179, 211, 0.15);
-            border: 2px solid var(--accent-color, #9DB3D3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .avatar-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .avatar-edit-icon {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--accent-color, #9DB3D3);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            border: 3px solid #3F1521;
-            cursor: pointer;
-        }
-
-        .results-placeholder {
-            border: 2px dashed rgba(157, 179, 211, 0.3);
-            border-radius: 16px;
-            padding: 30px 20px;
-            text-align: center;
-            opacity: 0.7;
-        }
+        .location-link, .social-link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 10px; background: rgba(157, 179, 211, 0.1); border: 1px solid rgba(157, 179, 211, 0.2); color: var(--accent-color, #9DB3D3); text-decoration: none; font-weight: 600; font-size: 12px; transition: all 0.2s; cursor: pointer; }
+        .location-link:hover, .social-link:hover { background: rgba(157, 179, 211, 0.2); transform: translateX(2px); }
+        
+        .subscription-tag { display: inline-block; padding: 2px 6px; border-radius: 8px; font-size: 9px; font-weight: bold; background: rgba(251, 191, 36, 0.2); color: #fbbf24; margin-left: 6px; text-transform: uppercase; }
+        .avatar-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto; }
+        .avatar-circle { width: 100px; height: 100px; border-radius: 50%; background: rgba(157, 179, 211, 0.15); border: 2px solid var(--accent-color, #9DB3D3); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; cursor: pointer; }
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-edit-icon { position: absolute; bottom: 0; right: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-color, #9DB3D3); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 3px solid #3F1521; cursor: pointer; }
+        .results-placeholder { border: 2px dashed rgba(157, 179, 211, 0.3); border-radius: 16px; padding: 30px 20px; text-align: center; opacity: 0.7; }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto theme-wine">
 
-    <!-- ЭКРАН РЕГИСТРАЦИИ -->
     <div id="screen-register" class="hidden space-y-5 py-6">
         <div class="text-center">
             <span class="text-4xl">👋</span>
@@ -159,12 +69,14 @@
             <div><label class="block text-xs font-bold mb-1 opacity-80">Имя:</label><input type="text" id="reg-name" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
             <div><label class="block text-xs font-bold mb-1 opacity-80">Фамилия:</label><input type="text" id="reg-surname" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
             <div><label class="block text-xs font-bold mb-1 opacity-80">Номер телефона:</label><input type="tel" id="reg-phone" placeholder="+375" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
-            <div><label class="block text-xs font-bold mb-1 opacity-80">Дата рождения:</label><input type="date" id="reg-birthday" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
+            <div>
+                <label class="block text-xs font-bold mb-1 opacity-80">Дата рождения:</label>
+                <input type="text" id="reg-birthday" placeholder="ДД.ММ.ГГГГ" maxlength="10" oninput="formatDateInput(this)" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
+            </div>
             <button onclick="submitRegistration()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">Завершить регистрацию</button>
         </div>
     </div>
 
-    <!-- ОКНО ДЛЯ ОТПРАВКИ ОТЗЫВА -->
     <div id="screen-leave-review" class="hidden space-y-4 py-4">
         <h2 class="text-lg font-black text-accent text-center">📝 Оставить отзыв о занятии</h2>
         <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
@@ -181,14 +93,18 @@
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <div id="app-content" class="hidden">
-        
-        <!-- ГЛАВНАЯ -->
         <div id="screen-main" class="screen space-y-5">
             <div class="flex justify-between items-center">
                 <button onclick="openProfile()" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition" title="Личный кабинет">👤</button>
                 <button onclick="navigateTo('settings')" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition">⚙️</button>
+            </div>
+
+            <!-- Приветствие -->
+            <div class="text-center py-2">
+                <h2 id="greeting-text" class="text-xl font-bold text-accent mb-1"></h2>
+                <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent">🏒</div>
+                <p class="text-xs opacity-60 mt-1">Твой проводник в умный фитнес и хоккей</p>
             </div>
 
             <div class="grid grid-cols-3 gap-2 text-center text-xs">
@@ -201,6 +117,15 @@
                 15 лет отыграл на профессиональном уровне в <b>СДЮШОР Юность-Минск</b>. Сейчас выступаю за ХК «Аквалит» и тренирую команду «Золотая шайба». Помогаю встать на коньки с нуля или прокачать мастерство.
             </div>
 
+            <!-- Социальные сети -->
+            <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
+                <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1">📱 Мои соцсети</h3>
+                <div class="flex flex-wrap gap-2">
+                    <a href="https://t.me/your_telegram" target="_blank" class="social-link"><span>✈️</span> Telegram</a>
+                    <a href="https://instagram.com/your_instagram" target="_blank" class="social-link"><span>📸</span> Instagram</a>
+                </div>
+            </div>
+
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
                 <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1">💬 Отзывы учеников</h3>
                 <div id="reviews-feed" class="space-y-2 max-h-60 overflow-y-auto pr-1">
@@ -209,11 +134,9 @@
             </div>
         </div>
 
-        <!-- ЛИЧНЫЙ КАБИНЕТ -->
         <div id="screen-profile" class="screen hidden space-y-4">
             <button onclick="navigateTo('main')" class="text-sm text-accent font-medium">← Назад</button>
             <h2 class="text-lg font-black text-accent text-center">👤 Личный кабинет</h2>
-            
             <div class="bg-secondary p-4 rounded-2xl border border-accent shadow-md">
                 <div class="avatar-wrapper">
                     <div class="avatar-circle" id="avatar-display" onclick="document.getElementById('avatar-input').click()">
@@ -225,24 +148,23 @@
                 </div>
                 <p class="text-center text-xs opacity-60 mt-3">Нажмите на фото, чтобы загрузить</p>
             </div>
-
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
                 <div><label class="block text-xs font-bold mb-1 opacity-80">Имя:</label><input type="text" id="profile-name" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
                 <div><label class="block text-xs font-bold mb-1 opacity-80">Фамилия:</label><input type="text" id="profile-surname" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
                 <div><label class="block text-xs font-bold mb-1 opacity-80">Номер телефона:</label><input type="tel" id="profile-phone" placeholder="+375" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
-                <div><label class="block text-xs font-bold mb-1 opacity-80">Дата рождения:</label><input type="date" id="profile-birthday" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
+                <div>
+                    <label class="block text-xs font-bold mb-1 opacity-80">Дата рождения:</label>
+                    <input type="text" id="profile-birthday" placeholder="ДД.ММ.ГГГГ" maxlength="10" oninput="formatDateInput(this)" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none">
+                </div>
                 <button onclick="saveProfile()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">💾 Сохранить изменения</button>
             </div>
         </div>
 
-        <!-- КАТЕГОРИИ -->
         <div id="screen-services" class="screen hidden space-y-4">
             <h2 id="category-title" class="text-lg font-black text-accent">Направление</h2>
-            
             <div id="trainer-entry-note" class="bg-yellow-500/10 border border-yellow-500/30 p-3 rounded-xl text-xs text-yellow-400 hidden">
                 ⚠️ <b>Внимание:</b> Вход для тренера на каток/арену <b>не входит</b> в стоимость занятия и оплачивается отдельно.
             </div>
-
             <div class="bg-secondary border border-accent p-4 rounded-2xl text-xs shadow-md">
                 <h4 class="font-bold text-accent mb-3 flex items-center gap-1">🏆 Результаты клиентов</h4>
                 <div id="results-container" class="results-placeholder">
@@ -251,26 +173,21 @@
                     <p class="text-xs opacity-60 mt-1">Реальные результаты наших учеников</p>
                 </div>
             </div>
-
             <div class="bg-secondary border border-accent p-3 rounded-xl text-xs">
                 <h4 class="font-bold opacity-60 mb-2">📍 Локация:</h4>
                 <div id="category-locations" class="flex flex-wrap gap-2"></div>
             </div>
-
             <button onclick="showServiceSelection()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer shadow-md">Записаться</button>
         </div>
 
-        <!-- ВЫБОР УСЛУГИ -->
         <div id="screen-select-service" class="screen hidden space-y-4">
             <button onclick="backToMainServices()" class="text-sm text-accent font-medium">← Назад</button>
             <h2 class="text-lg font-black text-accent">Выберите услугу</h2>
             <div id="services-list" class="space-y-3"></div>
         </div>
 
-        <!-- ВРЕМЯ С КАЛЕНДАРЁМ -->
         <div id="screen-time" class="screen hidden space-y-4">
             <button onclick="backToSelectService()" class="text-sm text-accent font-medium">← Назад</button>
-            
             <div class="calendar bg-secondary p-3 rounded-2xl border border-accent shadow-md">
                 <div class="flex items-center justify-between mb-3">
                     <button onclick="calPrevMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/20 text-accent text-lg font-bold">‹</button>
@@ -288,16 +205,13 @@
                 </div>
                 <div id="cal-grid" class="grid grid-cols-7 gap-1"></div>
             </div>
-
             <div id="day-type-indicator" class="text-xs text-accent opacity-70 text-center hidden bg-secondary border border-accent rounded-xl py-2 px-3"></div>
-
             <div id="time-slots-container" class="hidden">
                 <h3 class="text-sm font-bold text-accent mb-2">🕐 Выберите время</h3>
                 <div id="slots-grid" class="grid grid-cols-3 gap-2"></div>
             </div>
         </div>
 
-        <!-- ПОДТВЕРЖДЕНИЕ -->
         <div id="screen-confirm" class="screen hidden space-y-4">
             <div class="bg-secondary p-4 rounded-xl space-y-2 text-sm border border-accent">
                 <div><strong>Направление:</strong> <span id="summary-category">-</span></div>
@@ -308,7 +222,6 @@
             <button onclick="submitBooking()" class="btn-primary w-full py-3 rounded-xl font-bold shadow-md cursor-pointer">Подтвердить запись</button>
         </div>
 
-        <!-- НАСТРОЙКИ -->
         <div id="screen-settings" class="screen hidden space-y-4">
             <div class="flex items-center justify-between">
                 <button onclick="navigateTo('main')" class="text-sm text-accent font-medium">← Назад</button>
@@ -323,10 +236,16 @@
                     <button onclick="changeTheme('theme-light')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#f0fdfa] text-[#111827] border border-teal-300">❄️ Ледяной Светлый</button>
                 </div>
             </div>
+            <!-- Пожелания клиентов -->
+            <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
+                <h3 class="text-xs font-bold uppercase opacity-60">💡 Пожелания и идеи</h3>
+                <p class="text-xs opacity-70">Расскажите, что бы вы хотели добавить или улучшить в приложении?</p>
+                <textarea id="suggestion-text" placeholder="Напишите ваше пожелание..." class="w-full p-3 bg-black/20 border border-accent text-xs rounded-xl outline-none h-24 resize-none"></textarea>
+                <button onclick="submitSuggestion()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">Отправить пожелание</button>
+            </div>
         </div>
     </div>
 
-    <!-- ТАБ-БАР -->
     <div id="tab-bar" class="hidden fixed bottom-0 left-0 right-0 bg-[#2D0F18] border-t border-[rgba(157,179,211,0.15)] px-2 py-2 flex justify-around items-center text-[10px] z-50">
         <div onclick="navigateTo('gym')" id="tab-gym" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏋️‍♂️</span><span>Зал</span></div>
         <div onclick="navigateTo('skating')" id="tab-skating" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">⛸️</span><span>Коньки</span></div>
@@ -338,15 +257,33 @@
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
-        
-        // ✅ ИСПРАВЛЕННЫЙ АДРЕС СЕРВЕРА (Render)
         const serverUrl = 'https://vlad-coaching.onrender.com';
-        
         let bookingData = { category: '', service: '', price: '', date: '', time: '', raw_date: '', user_id: 0 };
         let currentCategoryKey = ''; let selectedRating = 0;
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) { bookingData.user_id = tg.initDataUnsafe.user.id; }
         const savedTheme = localStorage.getItem('vlad_theme') || 'theme-wine';
         changeTheme(savedTheme);
+
+        // Авто-форматирование даты (ДД.ММ.ГГГГ)
+        function formatDateInput(input) {
+            let val = input.value.replace(/\D/g, '');
+            if (val.length > 2) val = val.slice(0, 2) + '.' + val.slice(2);
+            if (val.length > 5) val = val.slice(0, 5) + '.' + val.slice(5, 9);
+            input.value = val;
+        }
+
+        // Динамическое приветствие
+        function setGreeting() {
+            const hour = new Date().getHours();
+            let greet = 'Доброй ночи';
+            if (hour >= 5 && hour < 12) greet = 'Доброе утро';
+            else if (hour >= 12 && hour < 18) greet = 'Добрый день';
+            else if (hour >= 18 && hour < 23) greet = 'Добрый вечер';
+            
+            const el = document.getElementById('greeting-text');
+            if (el) el.innerText = `${greet}! 👋`;
+        }
+        setGreeting();
 
         function openLocation(url) {
             if (tg && tg.openLink) { tg.openLink(url); }
@@ -356,23 +293,17 @@
         function openProfile() {
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
             document.getElementById('screen-profile').classList.remove('hidden');
-            
-            fetch(`${serverUrl}/check_user/${bookingData.user_id}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.name) {
-                        const parts = data.name.split(' ');
-                        document.getElementById('profile-name').value = parts[0] || '';
-                        document.getElementById('profile-surname').value = parts.slice(1).join(' ') || '';
-                    }
-                })
-                .catch(() => {});
-
+            fetch(`${serverUrl}/check_user/${bookingData.user_id}`).then(res => res.json()).then(data => {
+                if (data.name) {
+                    const parts = data.name.split(' ');
+                    document.getElementById('profile-name').value = parts[0] || '';
+                    document.getElementById('profile-surname').value = parts.slice(1).join(' ') || '';
+                }
+            }).catch(() => {});
             const savedPhone = localStorage.getItem(`profile_phone_${bookingData.user_id}`);
             const savedBirthday = localStorage.getItem(`profile_birthday_${bookingData.user_id}`);
             if (savedPhone) document.getElementById('profile-phone').value = savedPhone;
             if (savedBirthday) document.getElementById('profile-birthday').value = savedBirthday;
-
             loadAvatar();
         }
 
@@ -380,49 +311,38 @@
             const name = document.getElementById('profile-name').value.trim();
             const surname = document.getElementById('profile-surname').value.trim();
             const phone = document.getElementById('profile-phone').value.trim();
-            const birthday = document.getElementById('profile-birthday').value;
+            const birthday = document.getElementById('profile-birthday').value.trim();
 
-            if (!name || !surname) {
-                tg.showAlert('❌ Заполните имя и фамилию!');
-                return;
-            }
+            if (!name || !surname) { tg.showAlert('❌ Заполните имя и фамилию!'); return; }
 
             localStorage.setItem(`profile_phone_${bookingData.user_id}`, phone);
             localStorage.setItem(`profile_birthday_${bookingData.user_id}`, birthday);
 
+            // Преобразуем ДД.ММ.ГГГГ в ГГГГ-ММ-ДД для сервера
+            let serverBirthday = birthday;
+            if (birthday.includes('.')) {
+                const parts = birthday.split('.');
+                if (parts.length === 3) serverBirthday = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
+
             fetch(`${serverUrl}/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    user_id: bookingData.user_id,
-                    first_name: name,
-                    last_name: surname,
-                    phone: phone,
-                    birthday: birthday
-                })
-            })
-            .then(res => {
-                if (res.ok) {
-                    tg.showAlert('✅ Данные сохранены!');
-                } else {
-                    tg.showAlert('❌ Ошибка сохранения');
-                }
-            })
-            .catch(() => tg.showAlert('❌ Ошибка соединения'));
+                body: JSON.stringify({ user_id: bookingData.user_id, first_name: name, last_name: surname, phone: phone, birthday: serverBirthday })
+            }).then(res => {
+                if (res.ok) tg.showAlert('✅ Данные сохранены!');
+                else tg.showAlert('❌ Ошибка сохранения');
+            }).catch(() => tg.showAlert('❌ Ошибка соединения'));
         }
 
         function handleAvatarUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
-            if (file.size > 2 * 1024 * 1024) {
-                tg.showAlert('❌ Фото слишком большое (макс. 2 МБ)');
-                return;
-            }
+            if (file.size > 2 * 1024 * 1024) { tg.showAlert('❌ Фото слишком большое (макс. 2 МБ)'); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
-                const base64 = e.target.result;
-                localStorage.setItem(`profile_avatar_${bookingData.user_id}`, base64);
-                displayAvatar(base64);
+                localStorage.setItem(`profile_avatar_${bookingData.user_id}`, e.target.result);
+                displayAvatar(e.target.result);
                 tg.showAlert('✅ Фото загружено!');
             };
             reader.readAsDataURL(file);
@@ -434,158 +354,103 @@
         }
 
         function displayAvatar(src) {
-            const img = document.getElementById('avatar-img');
-            const placeholder = document.getElementById('avatar-placeholder');
-            img.src = src;
-            img.classList.remove('hidden');
-            placeholder.classList.add('hidden');
+            document.getElementById('avatar-img').src = src;
+            document.getElementById('avatar-img').classList.remove('hidden');
+            document.getElementById('avatar-placeholder').classList.add('hidden');
+        }
+
+        function submitSuggestion() {
+            const text = document.getElementById('suggestion-text').value.trim();
+            if (!text) { tg.showAlert('❌ Напишите ваше пожелание!'); return; }
+            
+            fetch(`${serverUrl}/suggestion`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: bookingData.user_id, text: text })
+            }).then(res => {
+                if (res.ok) {
+                    tg.showAlert('✅ Спасибо за ваше мнение!');
+                    document.getElementById('suggestion-text').value = '';
+                } else {
+                    tg.showAlert('❌ Ошибка отправки');
+                }
+            }).catch(() => tg.showAlert('❌ Ошибка соединения'));
         }
 
         const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
         const dayNamesShort = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
         let calYear, calMonth, calSelectedDate = null;
-        const today = new Date();
-        today.setHours(0,0,0,0);
+        const today = new Date(); today.setHours(0,0,0,0);
 
         function initCalendar() {
-            calYear = today.getFullYear();
-            calMonth = today.getMonth();
-            calSelectedDate = null;
-            renderCalendar();
-            document.getElementById('day-type-indicator').classList.add('hidden');
+            calYear = today.getFullYear(); calMonth = today.getMonth(); calSelectedDate = null;
+            renderCalendar(); document.getElementById('day-type-indicator').classList.add('hidden');
         }
 
         function renderCalendar() {
             document.getElementById('cal-month-title').innerText = `${monthNames[calMonth]} ${calYear}`;
-            const grid = document.getElementById('cal-grid');
-            grid.innerHTML = '';
-
+            const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
             const firstDay = new Date(calYear, calMonth, 1);
-            let startDay = firstDay.getDay();
-            if (startDay === 0) startDay = 7;
-            startDay--;
-
+            let startDay = firstDay.getDay(); if (startDay === 0) startDay = 7; startDay--;
             const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
 
-            for (let i = 0; i < startDay; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'cal-day cal-empty';
-                grid.appendChild(cell);
-            }
-
+            for (let i = 0; i < startDay; i++) { const cell = document.createElement('div'); cell.className = 'cal-day cal-empty'; grid.appendChild(cell); }
             for (let d = 1; d <= daysInMonth; d++) {
                 const cell = document.createElement('div');
-                const cellDate = new Date(calYear, calMonth, d);
-                cellDate.setHours(0,0,0,0);
-                cell.className = 'cal-day';
-                cell.innerText = d;
-
-                const dayOfWeek = cellDate.getDay();
-                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
-
-                if (cellDate < today) {
-                    cell.classList.add('cal-disabled');
-                } else {
-                    cell.onclick = () => selectCalendarDate(calYear, calMonth, d);
-                }
-
+                const cellDate = new Date(calYear, calMonth, d); cellDate.setHours(0,0,0,0);
+                cell.className = 'cal-day'; cell.innerText = d;
+                const dayOfWeek = cellDate.getDay(); const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                if (cellDate < today) cell.classList.add('cal-disabled');
+                else cell.onclick = () => selectCalendarDate(calYear, calMonth, d);
                 if (cellDate.getTime() === today.getTime()) cell.classList.add('cal-today');
                 if (isWeekend && cellDate >= today) cell.classList.add('cal-weekend');
                 if (calSelectedDate && cellDate.getTime() === calSelectedDate.getTime()) cell.classList.add('cal-selected');
-
                 grid.appendChild(cell);
             }
         }
 
         function selectCalendarDate(y, m, d) {
-            calSelectedDate = new Date(y, m, d);
-            calSelectedDate.setHours(0,0,0,0);
-            renderCalendar();
-
+            calSelectedDate = new Date(y, m, d); calSelectedDate.setHours(0,0,0,0); renderCalendar();
             const dateStr = `${String(d).padStart(2,'0')}.${String(m+1).padStart(2,'0')}.${y}`;
-            bookingData.date = dateStr;
-            bookingData.raw_date = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-
+            bookingData.date = dateStr; bookingData.raw_date = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
             const indicator = document.getElementById('day-type-indicator');
-            const dayOfWeek = calSelectedDate.getDay();
-            const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
-            const dayName = dayNamesShort[dayOfWeek];
-
-            if (currentCategoryKey === 'skating') {
-                indicator.innerText = `${dayName}, ${dateStr} • ⛸️ Коньки: 10:15 – 23:00 (каждый час в :15)`;
-            } else if (isWeekend) {
-                indicator.innerText = `${dayName}, ${dateStr} • 📅 Выходной: 10:00 – 14:00`;
-            } else {
-                indicator.innerText = `${dayName}, ${dateStr} • 📅 Будний день`;
-            }
-            indicator.classList.remove('hidden');
-
-            loadTimeSlots();
+            const dayOfWeek = calSelectedDate.getDay(); const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+            if (currentCategoryKey === 'skating') indicator.innerText = `${dayNamesShort[dayOfWeek]}, ${dateStr} • ⛸️ Коньки: 10:15 – 23:00`;
+            else if (isWeekend) indicator.innerText = `${dayNamesShort[dayOfWeek]}, ${dateStr} • 📅 Выходной: 10:00 – 14:00`;
+            else indicator.innerText = `${dayNamesShort[dayOfWeek]}, ${dateStr} • 📅 Будний день`;
+            indicator.classList.remove('hidden'); loadTimeSlots();
         }
 
-        function calPrevMonth() {
-            calMonth--;
-            if (calMonth < 0) { calMonth = 11; calYear--; }
-            const minDate = new Date(today.getFullYear(), today.getMonth(), 1);
-            const curFirst = new Date(calYear, calMonth, 1);
-            if (curFirst < minDate) { calMonth = today.getMonth(); calYear = today.getFullYear(); }
-            renderCalendar();
-        }
-
-        function calNextMonth() {
-            calMonth++;
-            if (calMonth > 11) { calMonth = 0; calYear++; }
-            renderCalendar();
-        }
+        function calPrevMonth() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
+        function calNextMonth() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
 
         async function loadTimeSlots() {
             document.getElementById('time-slots-container').classList.remove('hidden');
             const container = document.getElementById('slots-grid');
             container.innerHTML = '<p class="col-span-3 text-xs opacity-50 text-center py-2">Загрузка...</p>';
-
             try {
                 const response = await fetch(`${serverUrl}/get_blocked_slots/${bookingData.raw_date}`);
                 const data = await response.json();
                 generateTimeSlots(data.blocked_slots || []);
-            } catch (error) {
-                console.error('Ошибка загрузки слотов:', error);
-                generateTimeSlots([]);
-            }
+            } catch (error) { generateTimeSlots([]); }
         }
 
         function navigateTo(target) {
             document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('tab-active'));
             const activeTab = document.getElementById(`tab-${target}`); if(activeTab) activeTab.classList.add('tab-active');
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
-            
-            if (target === 'main') { 
-                document.getElementById('screen-main').classList.remove('hidden'); 
-                loadReviews(); 
-            }
-            else if (target === 'settings') { 
-                document.getElementById('screen-settings').classList.remove('hidden'); 
-            }
+            if (target === 'main') { document.getElementById('screen-main').classList.remove('hidden'); setGreeting(); loadReviews(); }
+            else if (target === 'settings') { document.getElementById('screen-settings').classList.remove('hidden'); }
             else {
                 currentCategoryKey = target; const category = servicesData[target]; bookingData.category = category.title;
                 document.getElementById('category-title').innerText = category.title; 
-                
-                const locationsContainer = document.getElementById('category-locations');
-                locationsContainer.innerHTML = '';
+                const locationsContainer = document.getElementById('category-locations'); locationsContainer.innerHTML = '';
                 category.locations.forEach(loc => {
-                    const link = document.createElement('div');
-                    link.className = 'location-link';
+                    const link = document.createElement('div'); link.className = 'location-link';
                     link.innerHTML = `<span>📍</span><span>${loc.name}</span><span>→</span>`;
-                    link.onclick = () => openLocation(loc.url);
-                    locationsContainer.appendChild(link);
+                    link.onclick = () => openLocation(loc.url); locationsContainer.appendChild(link);
                 });
-                
-                const trainerNote = document.getElementById('trainer-entry-note');
-                if (target === 'gym') {
-                    trainerNote.classList.add('hidden');
-                } else {
-                    trainerNote.classList.remove('hidden');
-                }
-                
+                document.getElementById('trainer-entry-note').classList.toggle('hidden', target === 'gym');
                 document.getElementById('screen-services').classList.remove('hidden');
             }
         }
@@ -593,93 +458,31 @@
         function showServiceSelection() {
             document.getElementById('screen-services').classList.add('hidden');
             document.getElementById('screen-select-service').classList.remove('hidden');
-            const listContainer = document.getElementById('services-list');
-            listContainer.innerHTML = '';
+            const listContainer = document.getElementById('services-list'); listContainer.innerHTML = '';
             servicesData[currentCategoryKey].list.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'bg-secondary border border-accent rounded-xl p-4 cursor-pointer';
+                const div = document.createElement('div'); div.className = 'bg-secondary border border-accent rounded-xl p-4 cursor-pointer';
                 div.onclick = function() { selectService(item.name, item.price); };
-                
                 let priceHtml = `<div class="text-sm font-semibold mt-1 text-accent">${item.price}</div>`;
                 if (item.isSubscription) priceHtml += `<span class="subscription-tag">Абонемент</span>`;
                 if (item.isSplit) priceHtml += `<span class="subscription-tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">Сплит</span>`;
-                
-                div.innerHTML = `<div class="font-bold">${item.name}</div>${priceHtml}`;
-                listContainer.appendChild(div);
+                div.innerHTML = `<div class="font-bold">${item.name}</div>${priceHtml}`; listContainer.appendChild(div);
             });
         }
 
-        function backToMainServices() {
-            document.getElementById('screen-select-service').classList.add('hidden');
-            document.getElementById('screen-services').classList.remove('hidden');
-        }
-
-        function backToSelectService() {
-            document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
-            document.getElementById('screen-select-service').classList.remove('hidden');
-        }
-
+        function backToMainServices() { document.getElementById('screen-select-service').classList.add('hidden'); document.getElementById('screen-services').classList.remove('hidden'); }
+        function backToSelectService() { document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden')); document.getElementById('screen-select-service').classList.remove('hidden'); }
         function selectService(name, price) { 
             bookingData.service = name; bookingData.price = price; 
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden')); 
-            document.getElementById('screen-time').classList.remove('hidden');
-            initCalendar();
+            document.getElementById('screen-time').classList.remove('hidden'); initCalendar();
             document.getElementById('time-slots-container').classList.add('hidden');
         }
 
         const servicesData = {
-            gym: { 
-                title: 'Тренажерный зал', 
-                startHour: 9, endHour: 21, 
-                result: 'Разберем биомеханику, укрепим корсет.', 
-                locations: [
-                    { name: 'Gym24 на Немиге', url: 'https://yandex.ru/maps/?text=Gym24+Немига+Минск' }
-                ], 
-                list: [
-                    { name: 'Персональная тренировка', price: '40 BYN', isSplit: false, isSubscription: false },
-                    { name: 'Сплит тренировка (2 человека)', price: '30 BYN с каждого', isSplit: true, isSubscription: false }
-                ] 
-            },
-            skating: { 
-                title: 'Катание на коньках', 
-                startHour: 10, endHour: 23, 
-                result: 'Баланс и координация на льду. Постановка правильного шага.', 
-                locations: [
-                    { name: 'ТРЦ Замок', url: 'https://yandex.ru/maps/?text=ТРЦ+Замок+Минск+каток' }
-                ], 
-                list: [
-                    { name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false },
-                    { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false },
-                    { name: 'Детский абонемент — 4 занятия', price: '180 BYN', isSplit: false, isSubscription: true },
-                    { name: 'Взрослый абонемент — 4 занятия', price: '200 BYN', isSplit: false, isSubscription: true },
-                    { name: 'Детский абонемент — 8 занятий', price: '345 BYN', isSplit: false, isSubscription: true },
-                    { name: 'Взрослый абонемент — 8 занятий', price: '385 BYN', isSplit: false, isSubscription: true }
-                ] 
-            },
-            hockey: { 
-                title: 'Хоккейное мастерство', 
-                startHour: 10, endHour: 22, 
-                result: 'Игровой IQ, дриблинг и броски.', 
-                locations: [
-                    { name: 'Чижовка-Арена', url: 'https://yandex.ru/maps/?text=Чижовка-Арена+Минск' }
-                ], 
-                list: [
-                    { name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false },
-                    { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false }
-                ] 
-            },
-            'dry-ice': { 
-                title: 'Броски на сухом льду', 
-                startHour: 7, endHour: 22, 
-                result: 'Поставим хлесткий и сильный бросок.', 
-                locations: [
-                    { name: 'Бросковая зона на Кальварийской', url: 'https://yandex.ru/maps/?text=Кальварийская+Минск+бросковая+зона' }
-                ], 
-                list: [
-                    { name: 'Детский (до 14 лет) — разовое', price: '30 BYN', isSplit: false, isSubscription: false },
-                    { name: 'Взрослый (+14) — разовое', price: '35 BYN', isSplit: false, isSubscription: false }
-                ] 
-            }
+            gym: { title: 'Тренажерный зал', startHour: 9, endHour: 21, locations: [{ name: 'Gym24 на Немиге', url: 'https://yandex.ru/maps/?text=Gym24+Немига+Минск' }], list: [{ name: 'Персональная тренировка', price: '40 BYN', isSplit: false, isSubscription: false }, { name: 'Сплит тренировка (2 человека)', price: '30 BYN с каждого', isSplit: true, isSubscription: false }] },
+            skating: { title: 'Катание на коньках', startHour: 10, endHour: 23, locations: [{ name: 'ТРЦ Замок', url: 'https://yandex.ru/maps/?text=ТРЦ+Замок+Минск+каток' }], list: [{ name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false }, { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false }, { name: 'Детский абонемент — 4 занятия', price: '180 BYN', isSplit: false, isSubscription: true }, { name: 'Взрослый абонемент — 4 занятия', price: '200 BYN', isSplit: false, isSubscription: true }, { name: 'Детский абонемент — 8 занятий', price: '345 BYN', isSplit: false, isSubscription: true }, { name: 'Взрослый абонемент — 8 занятий', price: '385 BYN', isSplit: false, isSubscription: true }] },
+            hockey: { title: 'Хоккейное мастерство', startHour: 10, endHour: 22, locations: [{ name: 'Чижовка-Арена', url: 'https://yandex.ru/maps/?text=Чижовка-Арена+Минск' }], list: [{ name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false }, { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false }] },
+            'dry-ice': { title: 'Броски на сухом льду', startHour: 7, endHour: 22, locations: [{ name: 'Бросковая зона на Кальварийской', url: 'https://yandex.ru/maps/?text=Кальварийская+Минск+бросковая+зона' }], list: [{ name: 'Детский (до 14 лет) — разовое', price: '30 BYN', isSplit: false, isSubscription: false }, { name: 'Взрослый (+14) — разовое', price: '35 BYN', isSplit: false, isSubscription: false }] }
         };
 
         function changeTheme(themeName) { document.body.className = "p-4 max-w-md mx-auto " + themeName; localStorage.setItem('vlad_theme', themeName); }
@@ -688,52 +491,36 @@
             const name = document.getElementById('reg-name').value.trim();
             const surname = document.getElementById('reg-surname').value.trim();
             const phone = document.getElementById('reg-phone').value.trim();
-            const birthday = document.getElementById('reg-birthday').value;
+            let birthday = document.getElementById('reg-birthday').value.trim();
 
-            if (!name || !surname || !phone || !birthday) {
-                tg.showAlert('❌ Пожалуйста, заполните все поля!');
-                return;
+            if (!name || !surname || !phone || !birthday) { tg.showAlert('❌ Пожалуйста, заполните все поля!'); return; }
+
+            // Преобразуем ДД.ММ.ГГГГ в ГГГГ-ММ-ДД
+            if (birthday.includes('.')) {
+                const parts = birthday.split('.');
+                if (parts.length === 3) birthday = `${parts[2]}-${parts[1]}-${parts[0]}`;
             }
 
             try {
                 const response = await fetch(`${serverUrl}/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: bookingData.user_id,
-                        first_name: name,
-                        last_name: surname,
-                        phone: phone,
-                        birthday: birthday
-                    })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: bookingData.user_id, first_name: name, last_name: surname, phone: phone, birthday: birthday })
                 });
-
                 if (response.ok) {
                     tg.showAlert('✅ Регистрация успешна!');
                     document.getElementById('screen-register').classList.add('hidden');
                     document.getElementById('app-content').classList.remove('hidden');
                     document.getElementById('tab-bar').classList.remove('hidden');
                     loadReviews();
-                } else {
-                    tg.showAlert('❌ Ошибка регистрации. Попробуйте еще раз.');
-                }
-            } catch (error) {
-                console.error('Ошибка регистрации:', error);
-                tg.showAlert('❌ Ошибка соединения. Проверьте интернет.');
-            }
+                } else { tg.showAlert('❌ Ошибка регистрации.'); }
+            } catch (error) { tg.showAlert('❌ Ошибка соединения.'); }
         }
 
         function setReviewRating(rating) {
             selectedRating = rating;
-            const stars = document.querySelectorAll('.star-btn');
-            stars.forEach((star, index) => {
-                if (index < rating) {
-                    star.classList.remove('text-zinc-400');
-                    star.classList.add('text-yellow-400');
-                } else {
-                    star.classList.remove('text-yellow-400');
-                    star.classList.add('text-zinc-400');
-                }
+            document.querySelectorAll('.star-btn').forEach((star, index) => {
+                star.classList.toggle('text-yellow-400', index < rating);
+                star.classList.toggle('text-zinc-400', index >= rating);
             });
         }
 
@@ -741,110 +528,51 @@
             const text = document.getElementById('review-text').value.trim();
             if (selectedRating === 0) { tg.showAlert('❌ Выберите оценку!'); return; }
             if (!text) { tg.showAlert('❌ Напишите текст отзыва!'); return; }
-
             try {
                 const response = await fetch(`${serverUrl}/review`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: bookingData.user_id, rating: selectedRating, text: text })
                 });
-
                 if (response.ok) {
                     tg.showAlert('✅ Спасибо за отзыв!');
-                    document.getElementById('review-text').value = '';
-                    selectedRating = 0;
-                    document.querySelectorAll('.star-btn').forEach(star => {
-                        star.classList.remove('text-yellow-400');
-                        star.classList.add('text-zinc-400');
-                    });
+                    document.getElementById('review-text').value = ''; selectedRating = 0;
+                    document.querySelectorAll('.star-btn').forEach(star => { star.classList.remove('text-yellow-400'); star.classList.add('text-zinc-400'); });
                     document.getElementById('screen-leave-review').classList.add('hidden');
-                } else {
-                    tg.showAlert('❌ Ошибка отправки. Попробуйте еще раз.');
                 }
-            } catch (error) {
-                console.error('Ошибка отправки отзыва:', error);
-                tg.showAlert('❌ Ошибка соединения.');
-            }
+            } catch (error) { tg.showAlert('❌ Ошибка соединения.'); }
         }
 
         async function loadReviews() {
-            const container = document.getElementById('reviews-feed');
-            container.innerHTML = '<p class="text-xs opacity-50">Загрузка отзывов...</p>';
-            
+            const container = document.getElementById('reviews-feed'); container.innerHTML = '<p class="text-xs opacity-50">Загрузка...</p>';
             try {
                 const response = await fetch(`${serverUrl}/reviews`);
                 const reviews = await response.json();
-                
-                if (reviews.length === 0) {
-                    container.innerHTML = '<p class="text-xs opacity-50">Пока нет отзывов</p>';
-                    return;
-                }
-                
-                container.innerHTML = reviews.map(r => `
-                    <div class="bg-black/20 p-2 rounded-lg border border-accent">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-xs">${r.name}</span>
-                            <span class="text-xs">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
-                        </div>
-                        <p class="text-xs opacity-80">${r.text}</p>
-                        <p class="text-[10px] opacity-50 mt-1">${r.date}</p>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Ошибка загрузки отзывов:', error);
-                container.innerHTML = '<p class="text-xs opacity-50">Не удалось загрузить отзывы</p>';
-            }
+                if (reviews.length === 0) { container.innerHTML = '<p class="text-xs opacity-50">Пока нет отзывов</p>'; return; }
+                container.innerHTML = reviews.map(r => `<div class="bg-black/20 p-2 rounded-lg border border-accent"><div class="flex justify-between items-center mb-1"><span class="font-bold text-xs">${r.name}</span><span class="text-xs">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></div><p class="text-xs opacity-80">${r.text}</p><p class="text-[10px] opacity-50 mt-1">${r.date}</p></div>`).join('');
+            } catch (error) { container.innerHTML = '<p class="text-xs opacity-50">Не удалось загрузить</p>'; }
         }
 
         function generateTimeSlots(blockedSlots) {
-            const container = document.getElementById('slots-grid');
-            container.innerHTML = '';
-            
-            let isWeekend = false;
-            if (calSelectedDate) {
-                const dayOfWeek = calSelectedDate.getDay();
-                isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
-            }
-
+            const container = document.getElementById('slots-grid'); container.innerHTML = '';
+            let isWeekend = calSelectedDate ? (calSelectedDate.getDay() === 0 || calSelectedDate.getDay() === 6) : false;
             if (currentCategoryKey === 'skating') {
                 for (let h = 10; h < 23; h++) {
                     const timeStr = `${String(h).padStart(2,'0')}:15`;
-                    const btn = document.createElement('button');
-                    btn.className = 'bg-secondary border border-accent rounded-xl py-2.5 text-sm font-bold cursor-pointer transition';
-                    btn.innerText = timeStr;
-
-                    const isBlocked = blockedSlots.includes(timeStr);
-                    if (isBlocked) {
-                        btn.classList.add('opacity-30');
-                        btn.style.cursor = 'not-allowed';
-                        btn.disabled = true;
-                    } else {
-                        btn.onclick = () => selectTime(timeStr);
-                    }
+                    const btn = document.createElement('button'); btn.className = 'bg-secondary border border-accent rounded-xl py-2.5 text-sm font-bold cursor-pointer transition'; btn.innerText = timeStr;
+                    if (blockedSlots.includes(timeStr)) { btn.classList.add('opacity-30'); btn.style.cursor = 'not-allowed'; btn.disabled = true; }
+                    else { btn.onclick = () => selectTime(timeStr); }
                     container.appendChild(btn);
                 }
                 return;
             }
-
-            let startH, endH;
-            if (isWeekend) { startH = 10; endH = 14; }
-            else { const cat = servicesData[currentCategoryKey]; startH = cat.startHour; endH = cat.endHour; }
-
+            let startH = isWeekend ? 10 : servicesData[currentCategoryKey].startHour;
+            let endH = isWeekend ? 14 : servicesData[currentCategoryKey].endHour;
             for (let h = startH; h < endH; h++) {
                 for (let m of [0, 30]) {
                     const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-                    const btn = document.createElement('button');
-                    btn.className = 'bg-secondary border border-accent rounded-xl py-2.5 text-sm font-bold cursor-pointer transition';
-                    btn.innerText = timeStr;
-
-                    const isBlocked = blockedSlots.includes(timeStr);
-                    if (isBlocked) {
-                        btn.classList.add('opacity-30');
-                        btn.style.cursor = 'not-allowed';
-                        btn.disabled = true;
-                    } else {
-                        btn.onclick = () => selectTime(timeStr);
-                    }
+                    const btn = document.createElement('button'); btn.className = 'bg-secondary border border-accent rounded-xl py-2.5 text-sm font-bold cursor-pointer transition'; btn.innerText = timeStr;
+                    if (blockedSlots.includes(timeStr)) { btn.classList.add('opacity-30'); btn.style.cursor = 'not-allowed'; btn.disabled = true; }
+                    else { btn.onclick = () => selectTime(timeStr); }
                     container.appendChild(btn);
                 }
             }
@@ -863,57 +591,29 @@
         async function submitBooking() {
             try {
                 const confirmBtn = document.querySelector('#screen-confirm .btn-primary');
-                confirmBtn.innerText = 'Отправка...';
-                confirmBtn.disabled = true;
-
+                confirmBtn.innerText = 'Отправка...'; confirmBtn.disabled = true;
                 const response = await fetch(`${serverUrl}/webhook`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: bookingData.user_id,
-                        category: bookingData.category,
-                        service: bookingData.service,
-                        price: bookingData.price,
-                        date: bookingData.date,
-                        time: bookingData.time,
-                        raw_date: bookingData.raw_date
-                    })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: bookingData.user_id, category: bookingData.category, service: bookingData.service, price: bookingData.price, date: bookingData.date, time: bookingData.time, raw_date: bookingData.raw_date })
                 });
-
                 if (response.ok) {
                     tg.showAlert(`✅ Запись подтверждена!\n\n${bookingData.service}\n${bookingData.date}\n${bookingData.time}\n💰 ${bookingData.price}`);
                     navigateTo('main');
-                } else {
-                    tg.showAlert('❌ Произошла ошибка при записи. Попробуйте еще раз.');
-                }
-            } catch (error) {
-                console.error('Ошибка отправки:', error);
-                tg.showAlert('❌ Ошибка соединения. Проверьте интернет и попробуйте снова.');
-            } finally {
+                } else { tg.showAlert('❌ Произошла ошибка при записи.'); }
+            } catch (error) { tg.showAlert('❌ Ошибка соединения.'); }
+            finally {
                 const confirmBtn = document.querySelector('#screen-confirm .btn-primary');
                 if (confirmBtn) { confirmBtn.innerText = 'Подтвердить запись'; confirmBtn.disabled = false; }
             }
         }
         
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('action') === 'leave_review') { 
-            document.getElementById('screen-leave-review').classList.remove('hidden'); 
-        } else { 
-            fetch(`${serverUrl}/check_user/${bookingData.user_id}`)
-                .then(res => res.json())
-                .then(data => { 
-                    if (data.registered) { 
-                        document.getElementById('app-content').classList.remove('hidden'); 
-                        document.getElementById('tab-bar').classList.remove('hidden'); 
-                        loadReviews(); 
-                    } else { 
-                        document.getElementById('screen-register').classList.remove('hidden'); 
-                    } 
-                })
-                .catch(() => { 
-                    document.getElementById('app-content').classList.remove('hidden'); 
-                    document.getElementById('tab-bar').classList.remove('hidden'); 
-                }); 
+        if (urlParams.get('action') === 'leave_review') { document.getElementById('screen-leave-review').classList.remove('hidden'); } 
+        else { 
+            fetch(`${serverUrl}/check_user/${bookingData.user_id}`).then(res => res.json()).then(data => { 
+                if (data.registered) { document.getElementById('app-content').classList.remove('hidden'); document.getElementById('tab-bar').classList.remove('hidden'); loadReviews(); } 
+                else { document.getElementById('screen-register').classList.remove('hidden'); } 
+            }).catch(() => { document.getElementById('app-content').classList.remove('hidden'); document.getElementById('tab-bar').classList.remove('hidden'); }); 
         }
     </script>
 </body>
