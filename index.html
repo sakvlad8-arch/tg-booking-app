@@ -96,7 +96,6 @@
             text-transform: uppercase;
         }
 
-        /* Аватарка в личном кабинете */
         .avatar-wrapper {
             position: relative;
             width: 100px;
@@ -138,7 +137,6 @@
             cursor: pointer;
         }
 
-        /* Заглушка для результатов */
         .results-placeholder {
             border: 2px dashed rgba(157, 179, 211, 0.3);
             border-radius: 16px;
@@ -188,13 +186,11 @@
         
         <!-- ГЛАВНАЯ -->
         <div id="screen-main" class="screen space-y-5">
-            <!-- Верхняя панель: Личный кабинет слева, Настройки справа -->
             <div class="flex justify-between items-center">
                 <button onclick="openProfile()" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition" title="Личный кабинет">👤</button>
                 <button onclick="navigateTo('settings')" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition">⚙️</button>
             </div>
 
-            <!-- Статистика -->
             <div class="grid grid-cols-3 gap-2 text-center text-xs">
                 <div class="bg-secondary p-2.5 rounded-xl border border-accent"><span class="block text-base font-black text-accent">15 лет</span><span class="opacity-60 text-[9px] uppercase">в хоккее</span></div>
                 <div class="bg-secondary p-2.5 rounded-xl border border-accent"><span class="block text-base font-black text-accent">5 лет</span><span class="opacity-60 text-[9px] uppercase">на льду</span></div>
@@ -206,7 +202,7 @@
             </div>
 
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
-                <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1"><span></span> Отзывы учеников</h3>
+                <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1">💬 Отзывы учеников</h3>
                 <div id="reviews-feed" class="space-y-2 max-h-60 overflow-y-auto pr-1">
                     <p class="text-xs opacity-50">Загрузка отзывов...</p>
                 </div>
@@ -218,7 +214,6 @@
             <button onclick="navigateTo('main')" class="text-sm text-accent font-medium">← Назад</button>
             <h2 class="text-lg font-black text-accent text-center">👤 Личный кабинет</h2>
             
-            <!-- Аватарка -->
             <div class="bg-secondary p-4 rounded-2xl border border-accent shadow-md">
                 <div class="avatar-wrapper">
                     <div class="avatar-circle" id="avatar-display" onclick="document.getElementById('avatar-input').click()">
@@ -231,13 +226,12 @@
                 <p class="text-center text-xs opacity-60 mt-3">Нажмите на фото, чтобы загрузить</p>
             </div>
 
-            <!-- Форма редактирования -->
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
                 <div><label class="block text-xs font-bold mb-1 opacity-80">Имя:</label><input type="text" id="profile-name" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
                 <div><label class="block text-xs font-bold mb-1 opacity-80">Фамилия:</label><input type="text" id="profile-surname" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
                 <div><label class="block text-xs font-bold mb-1 opacity-80">Номер телефона:</label><input type="tel" id="profile-phone" placeholder="+375" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
                 <div><label class="block text-xs font-bold mb-1 opacity-80">Дата рождения:</label><input type="date" id="profile-birthday" class="w-full p-2.5 rounded-xl bg-black/20 border border-accent text-sm outline-none"></div>
-                <button onclick="saveProfile()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer"> Сохранить изменения</button>
+                <button onclick="saveProfile()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">💾 Сохранить изменения</button>
             </div>
         </div>
 
@@ -245,14 +239,12 @@
         <div id="screen-services" class="screen hidden space-y-4">
             <h2 id="category-title" class="text-lg font-black text-accent">Направление</h2>
             
-            <!-- Внимание - теперь в самом верху -->
             <div id="trainer-entry-note" class="bg-yellow-500/10 border border-yellow-500/30 p-3 rounded-xl text-xs text-yellow-400 hidden">
                 ⚠️ <b>Внимание:</b> Вход для тренера на каток/арену <b>не входит</b> в стоимость занятия и оплачивается отдельно.
             </div>
 
-            <!-- Результаты клиентов -->
             <div class="bg-secondary border border-accent p-4 rounded-2xl text-xs shadow-md">
-                <h4 class="font-bold text-accent mb-3 flex items-center gap-1"><span></span> Результаты клиентов</h4>
+                <h4 class="font-bold text-accent mb-3 flex items-center gap-1">🏆 Результаты клиентов</h4>
                 <div id="results-container" class="results-placeholder">
                     <div class="text-3xl mb-2">📸</div>
                     <p class="font-bold text-sm">Скоро здесь появятся фото и видео</p>
@@ -260,7 +252,6 @@
                 </div>
             </div>
 
-            <!-- Локации -->
             <div class="bg-secondary border border-accent p-3 rounded-xl text-xs">
                 <h4 class="font-bold opacity-60 mb-2">📍 Локация:</h4>
                 <div id="category-locations" class="flex flex-wrap gap-2"></div>
@@ -335,7 +326,7 @@
         </div>
     </div>
 
-    <!-- ТАБ-БАР: Главная по центру (3-я из 5) -->
+    <!-- ТАБ-БАР -->
     <div id="tab-bar" class="hidden fixed bottom-0 left-0 right-0 bg-[#2D0F18] border-t border-[rgba(157,179,211,0.15)] px-2 py-2 flex justify-around items-center text-[10px] z-50">
         <div onclick="navigateTo('gym')" id="tab-gym" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏋️‍♂️</span><span>Зал</span></div>
         <div onclick="navigateTo('skating')" id="tab-skating" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">⛸️</span><span>Коньки</span></div>
@@ -347,25 +338,25 @@
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
-        const serverUrl = 'https://camera-solar-sequences-bottle.trycloudflare.com';
+        
+        // ✅ ИСПРАВЛЕННЫЙ АДРЕС СЕРВЕРА (Render)
+        const serverUrl = 'https://vlad-coaching.onrender.com';
+        
         let bookingData = { category: '', service: '', price: '', date: '', time: '', raw_date: '', user_id: 0 };
         let currentCategoryKey = ''; let selectedRating = 0;
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) { bookingData.user_id = tg.initDataUnsafe.user.id; }
         const savedTheme = localStorage.getItem('vlad_theme') || 'theme-wine';
         changeTheme(savedTheme);
 
-        // ===== ФУНКЦИЯ ОТКРЫТИЯ ССЫЛОК =====
         function openLocation(url) {
             if (tg && tg.openLink) { tg.openLink(url); }
             else { window.open(url, '_blank', 'noopener,noreferrer'); }
         }
 
-        // ===== ЛИЧНЫЙ КАБИНЕТ =====
         function openProfile() {
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
             document.getElementById('screen-profile').classList.remove('hidden');
             
-            // Загружаем данные с сервера
             fetch(`${serverUrl}/check_user/${bookingData.user_id}`)
                 .then(res => res.json())
                 .then(data => {
@@ -377,13 +368,11 @@
                 })
                 .catch(() => {});
 
-            // Загружаем сохранённые данные из localStorage (телефон, дата рождения)
             const savedPhone = localStorage.getItem(`profile_phone_${bookingData.user_id}`);
             const savedBirthday = localStorage.getItem(`profile_birthday_${bookingData.user_id}`);
             if (savedPhone) document.getElementById('profile-phone').value = savedPhone;
             if (savedBirthday) document.getElementById('profile-birthday').value = savedBirthday;
 
-            // Загружаем аватарку
             loadAvatar();
         }
 
@@ -398,11 +387,9 @@
                 return;
             }
 
-            // Сохраняем телефон и дату рождения локально
             localStorage.setItem(`profile_phone_${bookingData.user_id}`, phone);
             localStorage.setItem(`profile_birthday_${bookingData.user_id}`, birthday);
 
-            // Отправляем на сервер
             fetch(`${serverUrl}/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -421,18 +408,16 @@
                     tg.showAlert('❌ Ошибка сохранения');
                 }
             })
-            .catch(() => tg.showAlert(' Ошибка соединения'));
+            .catch(() => tg.showAlert('❌ Ошибка соединения'));
         }
 
         function handleAvatarUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             if (file.size > 2 * 1024 * 1024) {
-                tg.showAlert(' Фото слишком большое (макс. 2 МБ)');
+                tg.showAlert('❌ Фото слишком большое (макс. 2 МБ)');
                 return;
             }
-
             const reader = new FileReader();
             reader.onload = function(e) {
                 const base64 = e.target.result;
@@ -456,7 +441,6 @@
             placeholder.classList.add('hidden');
         }
 
-        // ===== КАЛЕНДАРЬ =====
         const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
         const dayNamesShort = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
         let calYear, calMonth, calSelectedDate = null;
@@ -528,9 +512,9 @@
             const dayName = dayNamesShort[dayOfWeek];
 
             if (currentCategoryKey === 'skating') {
-                indicator.innerText = `${dayName}, ${dateStr} • ️ Коньки: 10:15 – 23:00 (каждый час в :15)`;
+                indicator.innerText = `${dayName}, ${dateStr} • ⛸️ Коньки: 10:15 – 23:00 (каждый час в :15)`;
             } else if (isWeekend) {
-                indicator.innerText = `${dayName}, ${dateStr} •  Выходной: 10:00 – 14:00`;
+                indicator.innerText = `${dayName}, ${dateStr} • 📅 Выходной: 10:00 – 14:00`;
             } else {
                 indicator.innerText = `${dayName}, ${dateStr} • 📅 Будний день`;
             }
@@ -569,7 +553,6 @@
             }
         }
 
-        // ===== ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ =====
         function navigateTo(target) {
             document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('tab-active'));
             const activeTab = document.getElementById(`tab-${target}`); if(activeTab) activeTab.classList.add('tab-active');
@@ -586,18 +569,16 @@
                 currentCategoryKey = target; const category = servicesData[target]; bookingData.category = category.title;
                 document.getElementById('category-title').innerText = category.title; 
                 
-                // Рендерим локации
                 const locationsContainer = document.getElementById('category-locations');
                 locationsContainer.innerHTML = '';
                 category.locations.forEach(loc => {
                     const link = document.createElement('div');
                     link.className = 'location-link';
-                    link.innerHTML = `<span></span><span>${loc.name}</span><span>→</span>`;
+                    link.innerHTML = `<span>📍</span><span>${loc.name}</span><span>→</span>`;
                     link.onclick = () => openLocation(loc.url);
                     locationsContainer.appendChild(link);
                 });
                 
-                // Показываем примечание о входе для тренера (кроме зала)
                 const trainerNote = document.getElementById('trainer-entry-note');
                 if (target === 'gym') {
                     trainerNote.classList.add('hidden');
@@ -646,7 +627,6 @@
             document.getElementById('time-slots-container').classList.add('hidden');
         }
 
-        // ===== ДАННЫЕ УСЛУГ =====
         const servicesData = {
             gym: { 
                 title: 'Тренажерный зал', 
@@ -739,7 +719,7 @@
                 }
             } catch (error) {
                 console.error('Ошибка регистрации:', error);
-                tg.showAlert(' Ошибка соединения. Проверьте интернет.');
+                tg.showAlert('❌ Ошибка соединения. Проверьте интернет.');
             }
         }
 
@@ -783,7 +763,7 @@
                 }
             } catch (error) {
                 console.error('Ошибка отправки отзыва:', error);
-                tg.showAlert(' Ошибка соединения.');
+                tg.showAlert('❌ Ошибка соединения.');
             }
         }
 
