@@ -34,7 +34,6 @@
         body.theme-dark .tab-active { color: #38bdf8; }
         body.theme-light .tab-active { color: #0d9488; }
 
-        /* Календарь */
         .calendar { user-select: none; }
         .cal-day {
             aspect-ratio: 1;
@@ -72,6 +71,28 @@
         body.theme-wine { --accent-color: #9DB3D3; }
         body.theme-dark { --accent-color: #38bdf8; }
         body.theme-light { --accent-color: #0d9488; }
+
+        .price-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            background: rgba(157, 179, 211, 0.15);
+            color: var(--accent-color, #9DB3D3);
+            margin-left: 8px;
+        }
+        .subscription-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: bold;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            margin-left: 6px;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto theme-wine">
@@ -114,7 +135,6 @@
         
         <!-- ГЛАВНАЯ -->
         <div id="screen-main" class="screen space-y-5">
-            <!-- Кнопка настроек в правом верхнем углу -->
             <div class="flex justify-end">
                 <button onclick="navigateTo('settings')" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition">⚙️</button>
             </div>
@@ -142,8 +162,14 @@
         <!-- КАТЕГОРИИ -->
         <div id="screen-services" class="screen hidden space-y-4">
             <h2 id="category-title" class="text-lg font-black text-accent">Направление</h2>
-            <div class="bg-black/20 border border-accent p-4 rounded-xl text-xs space-y-1"><h4 class="font-bold text-accent"> Результат:</h4><p id="category-result-text"></p></div>
-            <div class="bg-secondary border border-accent p-3 rounded-xl text-xs"><h4 class="font-bold opacity-60">📍 Локации:</h4><div id="category-locations" class="mt-1"></div></div>
+            <div class="bg-black/20 border border-accent p-4 rounded-xl text-xs space-y-1"><h4 class="font-bold text-accent">🎯 Результат:</h4><p id="category-result-text"></p></div>
+            <div class="bg-secondary border border-accent p-3 rounded-xl text-xs"><h4 class="font-bold opacity-60"> Локации:</h4><div id="category-locations" class="mt-1"></div></div>
+            
+            <!-- Примечание о входе для тренера -->
+            <div id="trainer-entry-note" class="bg-yellow-500/10 border border-yellow-500/30 p-3 rounded-xl text-xs text-yellow-400 hidden">
+                ⚠️ <b>Внимание:</b> Вход для тренера на каток/арену <b>не входит</b> в стоимость занятия и оплачивается отдельно.
+            </div>
+
             <button onclick="showServiceSelection()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer shadow-md">Записаться</button>
         </div>
 
@@ -158,15 +184,12 @@
         <div id="screen-time" class="screen hidden space-y-4">
             <button onclick="backToSelectService()" class="text-sm text-accent font-medium">← Назад</button>
             
-            <!-- Кастомный календарь -->
             <div class="calendar bg-secondary p-3 rounded-2xl border border-accent shadow-md">
-                <!-- Заголовок месяца -->
                 <div class="flex items-center justify-between mb-3">
                     <button onclick="calPrevMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/20 text-accent text-lg font-bold">‹</button>
                     <div id="cal-month-title" class="font-bold text-sm uppercase tracking-wide text-accent"></div>
                     <button onclick="calNextMonth()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/20 text-accent text-lg font-bold">›</button>
                 </div>
-                <!-- Дни недели -->
                 <div class="grid grid-cols-7 gap-1 mb-1">
                     <div class="text-center text-[10px] font-bold opacity-50 uppercase">Пн</div>
                     <div class="text-center text-[10px] font-bold opacity-50 uppercase">Вт</div>
@@ -176,14 +199,11 @@
                     <div class="text-center text-[10px] font-bold opacity-50 uppercase text-red-400/60">Сб</div>
                     <div class="text-center text-[10px] font-bold opacity-50 uppercase text-red-400/60">Вс</div>
                 </div>
-                <!-- Сетка дней -->
                 <div id="cal-grid" class="grid grid-cols-7 gap-1"></div>
             </div>
 
-            <!-- Индикатор типа дня -->
             <div id="day-type-indicator" class="text-xs text-accent opacity-70 text-center hidden bg-secondary border border-accent rounded-xl py-2 px-3"></div>
 
-            <!-- Выбор времени -->
             <div id="time-slots-container" class="hidden">
                 <h3 class="text-sm font-bold text-accent mb-2">🕐 Выберите время</h3>
                 <div id="slots-grid" class="grid grid-cols-3 gap-2"></div>
@@ -211,7 +231,7 @@
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
                 <h3 class="text-xs font-bold uppercase opacity-60">Тема оформления:</h3>
                 <div class="space-y-2">
-                    <button onclick="changeTheme('theme-wine')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#3F1521] text-[#f4f4f5] border border-zinc-500"> Благородный Винный</button>
+                    <button onclick="changeTheme('theme-wine')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#3F1521] text-[#f4f4f5] border border-zinc-500">🍇 Благородный Винный</button>
                     <button onclick="changeTheme('theme-dark')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#111827] text-[#f9fafb] border border-zinc-700">🏒 Хоккейный Темный</button>
                     <button onclick="changeTheme('theme-light')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#f0fdfa] text-[#111827] border border-teal-300">❄️ Ледяной Светлый</button>
                 </div>
@@ -219,13 +239,13 @@
         </div>
     </div>
 
-    <!-- ТАБ-БАР (без настроек) -->
+    <!-- ТАБ-БАР -->
     <div id="tab-bar" class="hidden fixed bottom-0 left-0 right-0 bg-[#2D0F18] border-t border-[rgba(157,179,211,0.15)] px-2 py-2 flex justify-around items-center text-[10px] z-50">
         <div onclick="navigateTo('main')" id="tab-main" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400 tab-active"><span class="text-lg">👤</span><span>Главная</span></div>
-        <div onclick="navigateTo('gym')" id="tab-gym" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">️‍♂️</span><span>Зал</span></div>
+        <div onclick="navigateTo('gym')" id="tab-gym" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏋️‍♂️</span><span>Зал</span></div>
         <div onclick="navigateTo('skating')" id="tab-skating" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">⛸️</span><span>Коньки</span></div>
         <div onclick="navigateTo('hockey')" id="tab-hockey" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏒</span><span>Хоккей</span></div>
-        <div onclick="navigateTo('dry-ice')" id="tab-dry-ice" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🎯</span><span>Сухой лед</span></div>
+        <div onclick="navigateTo('dry-ice')" id="tab-dry-ice" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg"></span><span>Сухой лед</span></div>
     </div>
 
     <script>
@@ -291,7 +311,6 @@
                     cell.classList.add('cal-today');
                 }
 
-                // Выходные дни — красный оттенок
                 if (isWeekend && cellDate >= today) {
                     cell.classList.add('cal-weekend');
                 }
@@ -313,16 +332,15 @@
             bookingData.date = dateStr;
             bookingData.raw_date = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
-            // Показываем индикатор типа дня
             const indicator = document.getElementById('day-type-indicator');
             const dayOfWeek = calSelectedDate.getDay();
             const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
             const dayName = dayNamesShort[dayOfWeek];
 
             if (currentCategoryKey === 'skating') {
-                indicator.innerText = `${dayName}, ${dateStr} • ⛸️ Коньки: 10:15 – 23:00 (каждый час в :15)`;
+                indicator.innerText = `${dayName}, ${dateStr} • ️ Коньки: 10:15 – 23:00 (каждый час в :15)`;
             } else if (isWeekend) {
-                indicator.innerText = `${dayName}, ${dateStr} •  Выходной: 10:00 – 14:00`;
+                indicator.innerText = `${dayName}, ${dateStr} • 📅 Выходной: 10:00 – 14:00`;
             } else {
                 indicator.innerText = `${dayName}, ${dateStr} • 📅 Будний день`;
             }
@@ -382,6 +400,15 @@
                 document.getElementById('category-title').innerText = category.title; 
                 document.getElementById('category-result-text').innerText = category.result; 
                 document.getElementById('category-locations').innerHTML = category.locations;
+                
+                // Показываем примечание о входе для тренера (кроме зала)
+                const trainerNote = document.getElementById('trainer-entry-note');
+                if (target === 'gym') {
+                    trainerNote.classList.add('hidden');
+                } else {
+                    trainerNote.classList.remove('hidden');
+                }
+                
                 document.getElementById('screen-services').classList.remove('hidden');
             }
         }
@@ -395,7 +422,16 @@
                 const div = document.createElement('div');
                 div.className = 'bg-secondary border border-accent rounded-xl p-4 cursor-pointer';
                 div.onclick = function() { selectService(item.name, item.price); };
-                div.innerHTML = `<div class="font-bold">${item.name}</div><div class="text-sm font-semibold mt-1 text-accent">${item.price}</div>`;
+                
+                let priceHtml = `<div class="text-sm font-semibold mt-1 text-accent">${item.price}</div>`;
+                if (item.isSubscription) {
+                    priceHtml += `<span class="subscription-tag">Абонемент</span>`;
+                }
+                if (item.isSplit) {
+                    priceHtml += `<span class="subscription-tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">Сплит</span>`;
+                }
+                
+                div.innerHTML = `<div class="font-bold">${item.name}</div>${priceHtml}`;
                 listContainer.appendChild(div);
             });
         }
@@ -418,12 +454,52 @@
             document.getElementById('time-slots-container').classList.add('hidden');
         }
 
-        // ===== ДАННЫЕ УСЛУГ =====
+        // ===== ДАННЫЕ УСЛУГ С НОВЫМИ ЦЕНАМИ =====
         const servicesData = {
-            gym: { title: 'Тренажерный зал', startHour: 9, endHour: 21, result: 'Разберем биомеханику, укрепим корсет.', locations: `<a href="#" class="text-blue-400 underline">Gym24 на Немиге</a>`, list: [{ name: 'Персональная тренировка', price: '40 BYN' }] },
-            skating: { title: 'Катание на коньках', startHour: 10, endHour: 23, result: 'Баланс и координация на льду. Постановка правильного шага.', locations: `<a href="#" class="text-blue-400 underline">ТРЦ Замок</a>`, list: [{ name: 'Взрослый', price: '55 BYN' }] },
-            hockey: { title: 'Хоккейное мастерство', startHour: 10, endHour: 22, result: 'Игровой IQ, дриблинг и броски.', locations: `<a href="#" class="text-blue-400 underline">Чижовка-Арена</a>`, list: [{ name: 'Взрослый', price: '55 BYN' }] },
-            'dry-ice': { title: 'Броски на сухом льду', startHour: 7, endHour: 22, result: 'Поставим хлесткий и сильный бросок.', locations: `<a href="#" class="text-blue-400 underline">Бросковая зона Кальварийская</a>`, list: [{ name: 'Взрослый', price: '35 BYN' }] }
+            gym: { 
+                title: 'Тренажерный зал', 
+                startHour: 9, endHour: 21, 
+                result: 'Разберем биомеханику, укрепим корсет.', 
+                locations: `<a href="#" class="text-blue-400 underline">Gym24 на Немиге</a>`, 
+                list: [
+                    { name: 'Персональная тренировка', price: '40 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Сплит тренировка (2 человека)', price: '30 BYN с каждого', isSplit: true, isSubscription: false }
+                ] 
+            },
+            skating: { 
+                title: 'Катание на коньках', 
+                startHour: 10, endHour: 23, 
+                result: 'Баланс и координация на льду. Постановка правильного шага.', 
+                locations: `<a href="#" class="text-blue-400 underline">ТРЦ Замок</a>`, 
+                list: [
+                    { name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Детский абонемент — 4 занятия', price: '180 BYN', isSplit: false, isSubscription: true },
+                    { name: 'Взрослый абонемент — 4 занятия', price: '200 BYN', isSplit: false, isSubscription: true },
+                    { name: 'Детский абонемент — 8 занятий', price: '345 BYN', isSplit: false, isSubscription: true },
+                    { name: 'Взрослый абонемент — 8 занятий', price: '385 BYN', isSplit: false, isSubscription: true }
+                ] 
+            },
+            hockey: { 
+                title: 'Хоккейное мастерство', 
+                startHour: 10, endHour: 22, 
+                result: 'Игровой IQ, дриблинг и броски.', 
+                locations: `<a href="#" class="text-blue-400 underline">Чижовка-Арена</a>`, 
+                list: [
+                    { name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false }
+                ] 
+            },
+            'dry-ice': { 
+                title: 'Броски на сухом льду', 
+                startHour: 7, endHour: 22, 
+                result: 'Поставим хлесткий и сильный бросок.', 
+                locations: `<a href="#" class="text-blue-400 underline">Бросковая зона Кальварийская</a>`, 
+                list: [
+                    { name: 'Детский (до 14 лет) — разовое', price: '30 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Взрослый (+14) — разовое', price: '35 BYN', isSplit: false, isSubscription: false }
+                ] 
+            }
         };
 
         function changeTheme(themeName) { document.body.className = "p-4 max-w-md mx-auto " + themeName; localStorage.setItem('vlad_theme', themeName); }
@@ -489,7 +565,7 @@
                 return;
             }
             if (!text) {
-                tg.showAlert(' Напишите текст отзыва!');
+                tg.showAlert('❌ Напишите текст отзыва!');
                 return;
             }
 
@@ -551,19 +627,16 @@
             }
         }
 
-        // ===== ГЕНЕРАЦИЯ СЛОТОВ С УЧЁТОМ ВЫХОДНЫХ И ТИПА УСЛУГИ =====
         function generateTimeSlots(blockedSlots) {
             const container = document.getElementById('slots-grid');
             container.innerHTML = '';
             
-            // Определяем день недели
             let isWeekend = false;
             if (calSelectedDate) {
                 const dayOfWeek = calSelectedDate.getDay();
                 isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
             }
 
-            // Специальная логика для коньков: всегда 10:15 – 23:00, каждый час в :15
             if (currentCategoryKey === 'skating') {
                 for (let h = 10; h < 23; h++) {
                     const timeStr = `${String(h).padStart(2,'0')}:15`;
@@ -584,7 +657,6 @@
                 return;
             }
 
-            // Для остальных услуг: выходные 10:00-14:00, будни — стандартное расписание
             let startH, endH;
             if (isWeekend) {
                 startH = 10;
@@ -664,7 +736,6 @@
             }
         }
         
-        // Авто-запуск
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('action') === 'leave_review') { 
             document.getElementById('screen-leave-review').classList.remove('hidden'); 
