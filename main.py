@@ -3,20 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import uvicorn
 
 app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 BOT_TOKEN = "8937187144:AAHWkS3gh5FZC7lwXkJpFCdKnL5KNhBXVyU"
 ADMIN_CHAT_ID = 788136689
@@ -64,18 +57,13 @@ class SuggestionData(BaseModel):
 # === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
 def send_telegram_message(chat_id: int, text: str):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
     try:
-        requests.post(url, json=payload)
+        requests.post(url, json={"chat_id": chat_id, "text": text, "parse_mode": "HTML"})
     except Exception as e:
         print(f"Ошибка TG: {e}")
 
 def get_location(category: str) -> str:
-    locs = {
-        "gym": "Gym24 на Немиге",
-        "skating": "ТРЦ Замок",
-        "dry-ice": "Бросковая зона на Кальварийской"
-    }
+    locs = {"gym": "Gym24 на Немиге", "skating": "ТРЦ Замок", "dry-ice": "Бросковая зона на Кальварийской"}
     return locs.get(category, "Уточняйте у тренера")
 
 # === ПЛАНИРОВЩИК НАПОМИНАНИЙ ===
@@ -85,7 +73,6 @@ def check_reminders():
     cursor.execute("SELECT user_id, category, service, date_str, time_str FROM bookings")
     rows = cursor.fetchall()
     conn.close()
-
     now = datetime.now()
     for row in rows:
         user_id, cat, service, date_str, time_str = row
@@ -93,19 +80,12 @@ def check_reminders():
             booking_dt = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %H:%M")
         except:
             continue
-
         hours_until = (booking_dt - now).total_seconds() / 3600
         loc = get_location(cat)
-
-        # Напоминание за 24 часа (окно 23-25 часов)
         if 23 <= hours_until <= 25:
-            msg = f"🔔 <b>Напоминание: завтра тренировка!</b>\n\n📅 Дата: {date_str}\n⏰ Время: {time_str}\n🏒 Занятие: {service}\n📍 Место: {loc}\n👤 Тренер: Влад\n\nДо встречи!"
-            send_telegram_message(user_id, msg)
-        
-        # Напоминание за 2 часа (окно 1.5-2.5 часа)
+            send_telegram_message(user_id, f"🔔 <b>Напоминание: завтра тренировка!</b>\n\n📅 Дата: {date_str}\n⏰ Время: {time_str}\n🏒 Занятие: {service}\n📍 Место: {loc}\n👤 Тренер: Влад")
         elif 1.5 <= hours_until <= 2.5:
-            msg = f"⏰ <b>Напоминание: тренировка через 2 часа!</b>\n\n📅 Дата: {date_str}\n⏰ Время: {time_str}\n🏒 Занятие: {service}\n📍 Место: {loc}\n👤 Тренер: Влад\n\nНе забудьте форму!"
-            send_telegram_message(user_id, msg)
+            send_telegram_message(user_id, f"⏰ <b>Напоминание: тренировка через 2 часа!</b>\n\n📅 Дата: {date_str}\n⏰ Время: {time_str}\n🏒 Занятие: {service}\n📍 Место: {loc}\n👤 Тренер: Влад")
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(check_reminders, 'interval', minutes=30)
@@ -139,8 +119,6 @@ def get_blocked_slots(date_str: str):
     cursor.execute("SELECT time_str FROM bookings WHERE date_str = ?", (date_str,))
     booked_times = [row[0] for row in cursor.fetchall()]
     conn.close()
-
-    # Логика "дороги": блокируем следующие 3 слота по 30 мин (1.5 часа буфер)
     expanded_blocked = set(booked_times)
     for t in booked_times:
         h, m = map(int, t.split(':'))
@@ -151,7 +129,6 @@ def get_blocked_slots(date_str: str):
                 new_m = 0
                 new_h += 1
             expanded_blocked.add(f"{new_h:02d}:{new_m:02d}")
-
     return {"blocked_slots": list(expanded_blocked)}
 
 @app.post("/webhook")
@@ -162,8 +139,7 @@ async def receive_booking(data: BookingData):
                    (data.user_id, data.category, data.service, data.price, data.raw_date, data.time))
     conn.commit()
     conn.close()
-    loc = get_location(data.category)
-    send_telegram_message(ADMIN_CHAT_ID, f"🔥 <b>Новая запись!</b>\n👤 ID: {data.user_id}\n🏒 {data.service}\n📅 {data.date} в {data.time}\n📍 {loc}\n💰 {data.price}")
+    send_telegram_message(ADMIN_CHAT_ID, f"🔥 <b>Новая запись!</b>\n👤 ID: {data.user_id}\n🏒 {data.service}\n📅 {data.date} в {data.time}\n📍 {get_location(data.category)}\n💰 {data.price}")
     return {"success": True}
 
 @app.post("/review")
