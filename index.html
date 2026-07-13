@@ -72,6 +72,29 @@
         body.theme-dark { --accent-color: #38bdf8; }
         body.theme-light { --accent-color: #0d9488; }
 
+        .location-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 10px;
+            background: rgba(157, 179, 211, 0.1);
+            border: 1px solid rgba(157, 179, 211, 0.2);
+            color: var(--accent-color, #9DB3D3);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .location-link:hover {
+            background: rgba(157, 179, 211, 0.2);
+            transform: translateX(2px);
+        }
+        .location-link:active {
+            transform: scale(0.97);
+        }
+
         .price-badge {
             display: inline-block;
             padding: 2px 8px;
@@ -115,7 +138,7 @@
 
     <!-- ОКНО ДЛЯ ОТПРАВКИ ОТЗЫВА -->
     <div id="screen-leave-review" class="hidden space-y-4 py-4">
-        <h2 class="text-lg font-black text-accent text-center">📝 Оставить отзыв о занятии</h2>
+        <h2 class="text-lg font-black text-accent text-center"> Оставить отзыв о занятии</h2>
         <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
             <p class="text-xs text-center opacity-80">Ваше мнение очень важно!</p>
             <div class="flex justify-center gap-3 text-2xl" id="review-stars">
@@ -136,7 +159,7 @@
         <!-- ГЛАВНАЯ -->
         <div id="screen-main" class="screen space-y-5">
             <div class="flex justify-end">
-                <button onclick="navigateTo('settings')" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition">⚙️</button>
+                <button onclick="navigateTo('settings')" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition">️</button>
             </div>
             <div class="text-center py-2">
                 <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent">🏒</div>
@@ -152,7 +175,7 @@
                 15 лет отыграл на профессиональном уровне в <b>СДЮШОР Юность-Минск</b>. Сейчас выступаю за ХК «Аквалит» и тренирую команду «Золотая шайба». Помогаю встать на коньки с нуля или прокачать мастерство.
             </div>
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
-                <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1"><span>💬</span> Отзывы учеников</h3>
+                <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1"><span></span> Отзывы учеников</h3>
                 <div id="reviews-feed" class="space-y-2 max-h-60 overflow-y-auto pr-1">
                     <p class="text-xs opacity-50">Загрузка отзывов...</p>
                 </div>
@@ -163,9 +186,13 @@
         <div id="screen-services" class="screen hidden space-y-4">
             <h2 id="category-title" class="text-lg font-black text-accent">Направление</h2>
             <div class="bg-black/20 border border-accent p-4 rounded-xl text-xs space-y-1"><h4 class="font-bold text-accent">🎯 Результат:</h4><p id="category-result-text"></p></div>
-            <div class="bg-secondary border border-accent p-3 rounded-xl text-xs"><h4 class="font-bold opacity-60"> Локации:</h4><div id="category-locations" class="mt-1"></div></div>
             
-            <!-- Примечание о входе для тренера -->
+            <!-- Локации с рабочими ссылками -->
+            <div class="bg-secondary border border-accent p-3 rounded-xl text-xs">
+                <h4 class="font-bold opacity-60 mb-2">📍 Локация:</h4>
+                <div id="category-locations" class="flex flex-wrap gap-2"></div>
+            </div>
+            
             <div id="trainer-entry-note" class="bg-yellow-500/10 border border-yellow-500/30 p-3 rounded-xl text-xs text-yellow-400 hidden">
                 ⚠️ <b>Внимание:</b> Вход для тренера на каток/арену <b>не входит</b> в стоимость занятия и оплачивается отдельно.
             </div>
@@ -205,7 +232,7 @@
             <div id="day-type-indicator" class="text-xs text-accent opacity-70 text-center hidden bg-secondary border border-accent rounded-xl py-2 px-3"></div>
 
             <div id="time-slots-container" class="hidden">
-                <h3 class="text-sm font-bold text-accent mb-2">🕐 Выберите время</h3>
+                <h3 class="text-sm font-bold text-accent mb-2"> Выберите время</h3>
                 <div id="slots-grid" class="grid grid-cols-3 gap-2"></div>
             </div>
         </div>
@@ -245,7 +272,7 @@
         <div onclick="navigateTo('gym')" id="tab-gym" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏋️‍♂️</span><span>Зал</span></div>
         <div onclick="navigateTo('skating')" id="tab-skating" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">⛸️</span><span>Коньки</span></div>
         <div onclick="navigateTo('hockey')" id="tab-hockey" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏒</span><span>Хоккей</span></div>
-        <div onclick="navigateTo('dry-ice')" id="tab-dry-ice" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg"></span><span>Сухой лед</span></div>
+        <div onclick="navigateTo('dry-ice')" id="tab-dry-ice" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🎯</span><span>Сухой лед</span></div>
     </div>
 
     <script>
@@ -257,6 +284,15 @@
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) { bookingData.user_id = tg.initDataUnsafe.user.id; }
         const savedTheme = localStorage.getItem('vlad_theme') || 'theme-wine';
         changeTheme(savedTheme);
+
+        // ===== ФУНКЦИЯ ОТКРЫТИЯ ССЫЛОК =====
+        function openLocation(url) {
+            if (tg && tg.openLink) {
+                tg.openLink(url);
+            } else {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
+        }
 
         // ===== КАЛЕНДАРЬ =====
         const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -338,7 +374,7 @@
             const dayName = dayNamesShort[dayOfWeek];
 
             if (currentCategoryKey === 'skating') {
-                indicator.innerText = `${dayName}, ${dateStr} • ️ Коньки: 10:15 – 23:00 (каждый час в :15)`;
+                indicator.innerText = `${dayName}, ${dateStr} • ⛸️ Коньки: 10:15 – 23:00 (каждый час в :15)`;
             } else if (isWeekend) {
                 indicator.innerText = `${dayName}, ${dateStr} • 📅 Выходной: 10:00 – 14:00`;
             } else {
@@ -399,7 +435,17 @@
                 currentCategoryKey = target; const category = servicesData[target]; bookingData.category = category.title;
                 document.getElementById('category-title').innerText = category.title; 
                 document.getElementById('category-result-text').innerText = category.result; 
-                document.getElementById('category-locations').innerHTML = category.locations;
+                
+                // Рендерим локации как кнопки
+                const locationsContainer = document.getElementById('category-locations');
+                locationsContainer.innerHTML = '';
+                category.locations.forEach(loc => {
+                    const link = document.createElement('div');
+                    link.className = 'location-link';
+                    link.innerHTML = `<span>📍</span><span>${loc.name}</span><span>→</span>`;
+                    link.onclick = () => openLocation(loc.url);
+                    locationsContainer.appendChild(link);
+                });
                 
                 // Показываем примечание о входе для тренера (кроме зала)
                 const trainerNote = document.getElementById('trainer-entry-note');
@@ -454,13 +500,15 @@
             document.getElementById('time-slots-container').classList.add('hidden');
         }
 
-        // ===== ДАННЫЕ УСЛУГ С НОВЫМИ ЦЕНАМИ =====
+        // ===== ДАННЫЕ УСЛУГ С РЕАЛЬНЫМИ ССЫЛКАМИ =====
         const servicesData = {
             gym: { 
                 title: 'Тренажерный зал', 
                 startHour: 9, endHour: 21, 
                 result: 'Разберем биомеханику, укрепим корсет.', 
-                locations: `<a href="#" class="text-blue-400 underline">Gym24 на Немиге</a>`, 
+                locations: [
+                    { name: 'Gym24 на Немиге', url: 'https://yandex.ru/maps/?text=Gym24+Немига+Минск' }
+                ], 
                 list: [
                     { name: 'Персональная тренировка', price: '40 BYN', isSplit: false, isSubscription: false },
                     { name: 'Сплит тренировка (2 человека)', price: '30 BYN с каждого', isSplit: true, isSubscription: false }
@@ -470,7 +518,9 @@
                 title: 'Катание на коньках', 
                 startHour: 10, endHour: 23, 
                 result: 'Баланс и координация на льду. Постановка правильного шага.', 
-                locations: `<a href="#" class="text-blue-400 underline">ТРЦ Замок</a>`, 
+                locations: [
+                    { name: 'ТРЦ Замок', url: 'https://yandex.ru/maps/?text=ТРЦ+Замок+Минск+каток' }
+                ], 
                 list: [
                     { name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false },
                     { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false },
@@ -484,7 +534,9 @@
                 title: 'Хоккейное мастерство', 
                 startHour: 10, endHour: 22, 
                 result: 'Игровой IQ, дриблинг и броски.', 
-                locations: `<a href="#" class="text-blue-400 underline">Чижовка-Арена</a>`, 
+                locations: [
+                    { name: 'Чижовка-Арена', url: 'https://yandex.ru/maps/?text=Чижовка-Арена+Минск' }
+                ], 
                 list: [
                     { name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false },
                     { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false }
@@ -494,7 +546,9 @@
                 title: 'Броски на сухом льду', 
                 startHour: 7, endHour: 22, 
                 result: 'Поставим хлесткий и сильный бросок.', 
-                locations: `<a href="#" class="text-blue-400 underline">Бросковая зона Кальварийская</a>`, 
+                locations: [
+                    { name: 'Бросковая зона на Кальварийской', url: 'https://yandex.ru/maps/?text=Кальварийская+Минск+бросковая+зона' }
+                ], 
                 list: [
                     { name: 'Детский (до 14 лет) — разовое', price: '30 BYN', isSplit: false, isSubscription: false },
                     { name: 'Взрослый (+14) — разовое', price: '35 BYN', isSplit: false, isSubscription: false }
@@ -722,7 +776,7 @@
                     tg.showAlert(`✅ Запись подтверждена!\n\n${bookingData.service}\n${bookingData.date}\n${bookingData.time}\n💰 ${bookingData.price}`);
                     navigateTo('main');
                 } else {
-                    tg.showAlert('❌ Произошла ошибка при записи. Попробуйте еще раз.');
+                    tg.showAlert(' Произошла ошибка при записи. Попробуйте еще раз.');
                 }
             } catch (error) {
                 console.error('Ошибка отправки:', error);
