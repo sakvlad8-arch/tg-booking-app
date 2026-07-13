@@ -8,12 +8,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding-bottom: 95px; transition: background-color 0.3s, color 0.3s; }
-        body.theme-wine { background-color: #3F1521; color: #f4f4f5; }
-        body.theme-wine .bg-secondary { background-color: #2D0F18; }
-        body.theme-wine .text-accent { color: #9DB3D3; }
-        body.theme-wine .btn-primary { background-color: #9DB3D3; color: #3F1521; }
-        body.theme-wine .border-accent { border-color: rgba(157, 179, 211, 0.3); }
-        body.theme-wine .cal-today { color: #9DB3D3; }
+        
+        /* ТЕМА ДИНАМО МИНСК / СБОРНАЯ БЕЛАРУСИ (По умолчанию) */
+        body.theme-dynamo { background-color: #002147; color: #ffffff; }
+        body.theme-dynamo .bg-secondary { background-color: #0A3068; }
+        body.theme-dynamo .text-accent { color: #D21034; }
+        body.theme-dynamo .btn-primary { background-color: #D21034; color: #ffffff; }
+        body.theme-dynamo .border-accent { border-color: rgba(210, 16, 52, 0.4); }
+        body.theme-dynamo .cal-today { color: #D21034; }
+        body.theme-dynamo { --accent-color: #D21034; }
 
         body.theme-dark { background-color: #111827; color: #f9fafb; }
         body.theme-dark .bg-secondary { background-color: #1f2937; }
@@ -30,34 +33,31 @@
         body.theme-light .cal-today { color: #0d9488; }
 
         .tab-active { font-weight: bold; }
-        body.theme-wine .tab-active { color: #9DB3D3; }
+        body.theme-dynamo .tab-active { color: #D21034; }
         body.theme-dark .tab-active { color: #38bdf8; }
         body.theme-light .tab-active { color: #0d9488; }
 
         .calendar { user-select: none; }
         .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
-        .cal-day:hover:not(.cal-disabled):not(.cal-empty) { background: rgba(157, 179, 211, 0.15); }
-        .cal-day.cal-selected { background: var(--accent-color, #9DB3D3) !important; color: #fff !important; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .cal-day:hover:not(.cal-disabled):not(.cal-empty) { background: rgba(210, 16, 52, 0.15); }
+        .cal-day.cal-selected { background: var(--accent-color, #D21034) !important; color: #fff !important; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
         .cal-day.cal-disabled { opacity: 0.25; cursor: not-allowed; }
         .cal-day.cal-today { font-weight: bold; }
         .cal-day.cal-empty { cursor: default; }
         .cal-day.cal-weekend { color: #f87171; }
-        body.theme-wine { --accent-color: #9DB3D3; }
-        body.theme-dark { --accent-color: #38bdf8; }
-        body.theme-light { --accent-color: #0d9488; }
 
-        .location-link, .social-link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 10px; background: rgba(157, 179, 211, 0.1); border: 1px solid rgba(157, 179, 211, 0.2); color: var(--accent-color, #9DB3D3); text-decoration: none; font-weight: 600; font-size: 12px; transition: all 0.2s; cursor: pointer; }
-        .location-link:hover, .social-link:hover { background: rgba(157, 179, 211, 0.2); transform: translateX(2px); }
+        .location-link, .social-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 10px; background: rgba(210, 16, 52, 0.1); border: 1px solid rgba(210, 16, 52, 0.3); color: var(--accent-color, #D21034); text-decoration: none; font-weight: 600; font-size: 12px; transition: all 0.2s; cursor: pointer; }
+        .location-link:hover, .social-link:hover { background: rgba(210, 16, 52, 0.2); transform: translateX(2px); }
         
         .subscription-tag { display: inline-block; padding: 2px 6px; border-radius: 8px; font-size: 9px; font-weight: bold; background: rgba(251, 191, 36, 0.2); color: #fbbf24; margin-left: 6px; text-transform: uppercase; }
         .avatar-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto; }
-        .avatar-circle { width: 100px; height: 100px; border-radius: 50%; background: rgba(157, 179, 211, 0.15); border: 2px solid var(--accent-color, #9DB3D3); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; cursor: pointer; }
+        .avatar-circle { width: 100px; height: 100px; border-radius: 50%; background: rgba(210, 16, 52, 0.15); border: 2px solid var(--accent-color, #D21034); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; cursor: pointer; }
         .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-edit-icon { position: absolute; bottom: 0; right: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-color, #9DB3D3); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 3px solid #3F1521; cursor: pointer; }
-        .results-placeholder { border: 2px dashed rgba(157, 179, 211, 0.3); border-radius: 16px; padding: 30px 20px; text-align: center; opacity: 0.7; }
+        .avatar-edit-icon { position: absolute; bottom: 0; right: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-color, #D21034); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 3px solid #002147; cursor: pointer; }
+        .results-placeholder { border: 2px dashed rgba(210, 16, 52, 0.3); border-radius: 16px; padding: 30px 20px; text-align: center; opacity: 0.7; }
     </style>
 </head>
-<body class="p-4 max-w-md mx-auto theme-wine">
+<body class="p-4 max-w-md mx-auto theme-dynamo">
 
     <div id="screen-register" class="hidden space-y-5 py-6">
         <div class="text-center">
@@ -100,10 +100,9 @@
                 <button onclick="navigateTo('settings')" class="w-10 h-10 flex items-center justify-center rounded-full bg-secondary border border-accent text-accent text-lg shadow-md hover:scale-110 transition">⚙️</button>
             </div>
 
-            <!-- Приветствие -->
             <div class="text-center py-2">
                 <h2 id="greeting-text" class="text-xl font-bold text-accent mb-1"></h2>
-                <div class="w-24 h-24 bg-[rgba(157,179,211,0.2)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent">🏒</div>
+                <div class="w-24 h-24 bg-[rgba(210,16,52,0.15)] rounded-full mx-auto mb-3 flex items-center justify-center text-3xl border-2 border-accent">🏒</div>
                 <p class="text-xs opacity-60 mt-1">Твой проводник в умный фитнес и хоккей</p>
             </div>
 
@@ -121,8 +120,12 @@
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
                 <h3 class="font-bold text-sm uppercase tracking-wider text-accent flex items-center gap-1">📱 Мои соцсети</h3>
                 <div class="flex flex-wrap gap-2">
-                    <a href="https://t.me/your_telegram" target="_blank" class="social-link"><span>✈️</span> Telegram</a>
-                    <a href="https://instagram.com/your_instagram" target="_blank" class="social-link"><span>📸</span> Instagram</a>
+                    <a href="https://t.me/Sakik_47_02" target="_blank" class="social-link"><span>✈️</span> Личный TG</a>
+                    <a href="https://t.me/sakik47" target="_blank" class="social-link"><span>📢</span> Канал TG</a>
+                    <a href="https://www.instagram.com/vlad_sakik?igsh=MWNmYmZpdGMyanBwaQ%3D%3D&utm_source=qr" target="_blank" class="social-link"><span>📸</span> Instagram (Основной)</a>
+                    <a href="https://www.instagram.com/sakik_fit?igsh=NnNsOG5kazBsc2t6&utm_source=qr" target="_blank" class="social-link"><span>💪</span> Instagram (Физ. подг.)</a>
+                    <a href="https://www.tiktok.com/@sakik_v?_r=1&_t=ZN-95m4piFHkBC" target="_blank" class="social-link"><span>🎵</span> TikTok</a>
+                    <a href="https://www.threads.net/@vlad_sakik" target="_blank" class="social-link"><span>🧵</span> Threads</a>
                 </div>
             </div>
 
@@ -231,26 +234,25 @@
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
                 <h3 class="text-xs font-bold uppercase opacity-60">Тема оформления:</h3>
                 <div class="space-y-2">
-                    <button onclick="changeTheme('theme-wine')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#3F1521] text-[#f4f4f5] border border-zinc-500">🍇 Благородный Винный</button>
+                    <button onclick="changeTheme('theme-dynamo')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#002147] text-[#ffffff] border border-[#D21034]">🇧🇾 Динамо / Сборная</button>
                     <button onclick="changeTheme('theme-dark')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#111827] text-[#f9fafb] border border-zinc-700">🏒 Хоккейный Темный</button>
                     <button onclick="changeTheme('theme-light')" class="w-full p-3 rounded-xl text-left font-bold text-xs bg-[#f0fdfa] text-[#111827] border border-teal-300">❄️ Ледяной Светлый</button>
                 </div>
             </div>
-            <!-- Пожелания клиентов -->
             <div class="bg-secondary p-4 rounded-2xl border border-accent space-y-3 shadow-md">
                 <h3 class="text-xs font-bold uppercase opacity-60">💡 Пожелания и идеи</h3>
-                <p class="text-xs opacity-70">Расскажите, что бы вы хотели добавить или улучшить в приложении?</p>
+                <p class="text-xs opacity-70">Расскажите, что бы вы хотели добавить или улучшить?</p>
                 <textarea id="suggestion-text" placeholder="Напишите ваше пожелание..." class="w-full p-3 bg-black/20 border border-accent text-xs rounded-xl outline-none h-24 resize-none"></textarea>
                 <button onclick="submitSuggestion()" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">Отправить пожелание</button>
             </div>
         </div>
     </div>
 
-    <div id="tab-bar" class="hidden fixed bottom-0 left-0 right-0 bg-[#2D0F18] border-t border-[rgba(157,179,211,0.15)] px-2 py-2 flex justify-around items-center text-[10px] z-50">
+    <!-- ТАБ-БАР (4 вкладки, Главная по центру) -->
+    <div id="tab-bar" class="hidden fixed bottom-0 left-0 right-0 bg-[#0A3068] border-t border-[rgba(210,16,52,0.3)] px-2 py-2 flex justify-around items-center text-[10px] z-50">
         <div onclick="navigateTo('gym')" id="tab-gym" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏋️‍♂️</span><span>Зал</span></div>
         <div onclick="navigateTo('skating')" id="tab-skating" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">⛸️</span><span>Коньки</span></div>
         <div onclick="navigateTo('main')" id="tab-main" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400 tab-active"><span class="text-lg">👤</span><span>Главная</span></div>
-        <div onclick="navigateTo('hockey')" id="tab-hockey" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🏒</span><span>Хоккей</span></div>
         <div onclick="navigateTo('dry-ice')" id="tab-dry-ice" class="flex flex-col items-center gap-1 cursor-pointer text-zinc-400"><span class="text-lg">🎯</span><span>Сухой лед</span></div>
     </div>
 
@@ -261,10 +263,9 @@
         let bookingData = { category: '', service: '', price: '', date: '', time: '', raw_date: '', user_id: 0 };
         let currentCategoryKey = ''; let selectedRating = 0;
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) { bookingData.user_id = tg.initDataUnsafe.user.id; }
-        const savedTheme = localStorage.getItem('vlad_theme') || 'theme-wine';
+        const savedTheme = localStorage.getItem('vlad_theme') || 'theme-dynamo';
         changeTheme(savedTheme);
 
-        // Авто-форматирование даты (ДД.ММ.ГГГГ)
         function formatDateInput(input) {
             let val = input.value.replace(/\D/g, '');
             if (val.length > 2) val = val.slice(0, 2) + '.' + val.slice(2);
@@ -272,14 +273,12 @@
             input.value = val;
         }
 
-        // Динамическое приветствие
         function setGreeting() {
             const hour = new Date().getHours();
             let greet = 'Доброй ночи';
             if (hour >= 5 && hour < 12) greet = 'Доброе утро';
             else if (hour >= 12 && hour < 18) greet = 'Добрый день';
             else if (hour >= 18 && hour < 23) greet = 'Добрый вечер';
-            
             const el = document.getElementById('greeting-text');
             if (el) el.innerText = `${greet}! 👋`;
         }
@@ -311,24 +310,20 @@
             const name = document.getElementById('profile-name').value.trim();
             const surname = document.getElementById('profile-surname').value.trim();
             const phone = document.getElementById('profile-phone').value.trim();
-            const birthday = document.getElementById('profile-birthday').value.trim();
+            let birthday = document.getElementById('profile-birthday').value.trim();
 
             if (!name || !surname) { tg.showAlert('❌ Заполните имя и фамилию!'); return; }
-
             localStorage.setItem(`profile_phone_${bookingData.user_id}`, phone);
             localStorage.setItem(`profile_birthday_${bookingData.user_id}`, birthday);
 
-            // Преобразуем ДД.ММ.ГГГГ в ГГГГ-ММ-ДД для сервера
-            let serverBirthday = birthday;
             if (birthday.includes('.')) {
                 const parts = birthday.split('.');
-                if (parts.length === 3) serverBirthday = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                if (parts.length === 3) birthday = `${parts[2]}-${parts[1]}-${parts[0]}`;
             }
 
             fetch(`${serverUrl}/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: bookingData.user_id, first_name: name, last_name: surname, phone: phone, birthday: serverBirthday })
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: bookingData.user_id, first_name: name, last_name: surname, phone: phone, birthday: birthday })
             }).then(res => {
                 if (res.ok) tg.showAlert('✅ Данные сохранены!');
                 else tg.showAlert('❌ Ошибка сохранения');
@@ -362,18 +357,12 @@
         function submitSuggestion() {
             const text = document.getElementById('suggestion-text').value.trim();
             if (!text) { tg.showAlert('❌ Напишите ваше пожелание!'); return; }
-            
             fetch(`${serverUrl}/suggestion`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: bookingData.user_id, text: text })
             }).then(res => {
-                if (res.ok) {
-                    tg.showAlert('✅ Спасибо за ваше мнение!');
-                    document.getElementById('suggestion-text').value = '';
-                } else {
-                    tg.showAlert('❌ Ошибка отправки');
-                }
+                if (res.ok) { tg.showAlert('✅ Спасибо за ваше мнение!'); document.getElementById('suggestion-text').value = ''; }
+                else { tg.showAlert('❌ Ошибка отправки'); }
             }).catch(() => tg.showAlert('❌ Ошибка соединения'));
         }
 
@@ -416,7 +405,7 @@
             const indicator = document.getElementById('day-type-indicator');
             const dayOfWeek = calSelectedDate.getDay(); const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
             if (currentCategoryKey === 'skating') indicator.innerText = `${dayNamesShort[dayOfWeek]}, ${dateStr} • ⛸️ Коньки: 10:15 – 23:00`;
-            else if (isWeekend) indicator.innerText = `${dayNamesShort[dayOfWeek]}, ${dateStr} • 📅 Выходной: 10:00 – 14:00`;
+            else if (isWeekend) indicator.innerText = `${dayNamesShort[dayOfWeek]}, ${dateStr} • 📅 Выходной: 7:00 – 14:00`;
             else indicator.innerText = `${dayNamesShort[dayOfWeek]}, ${dateStr} • 📅 Будний день`;
             indicator.classList.remove('hidden'); loadTimeSlots();
         }
@@ -479,10 +468,37 @@
         }
 
         const servicesData = {
-            gym: { title: 'Тренажерный зал', startHour: 9, endHour: 21, locations: [{ name: 'Gym24 на Немиге', url: 'https://yandex.ru/maps/?text=Gym24+Немига+Минск' }], list: [{ name: 'Персональная тренировка', price: '40 BYN', isSplit: false, isSubscription: false }, { name: 'Сплит тренировка (2 человека)', price: '30 BYN с каждого', isSplit: true, isSubscription: false }] },
-            skating: { title: 'Катание на коньках', startHour: 10, endHour: 23, locations: [{ name: 'ТРЦ Замок', url: 'https://yandex.ru/maps/?text=ТРЦ+Замок+Минск+каток' }], list: [{ name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false }, { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false }, { name: 'Детский абонемент — 4 занятия', price: '180 BYN', isSplit: false, isSubscription: true }, { name: 'Взрослый абонемент — 4 занятия', price: '200 BYN', isSplit: false, isSubscription: true }, { name: 'Детский абонемент — 8 занятий', price: '345 BYN', isSplit: false, isSubscription: true }, { name: 'Взрослый абонемент — 8 занятий', price: '385 BYN', isSplit: false, isSubscription: true }] },
-            hockey: { title: 'Хоккейное мастерство', startHour: 10, endHour: 22, locations: [{ name: 'Чижовка-Арена', url: 'https://yandex.ru/maps/?text=Чижовка-Арена+Минск' }], list: [{ name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false }, { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false }] },
-            'dry-ice': { title: 'Броски на сухом льду', startHour: 7, endHour: 22, locations: [{ name: 'Бросковая зона на Кальварийской', url: 'https://yandex.ru/maps/?text=Кальварийская+Минск+бросковая+зона' }], list: [{ name: 'Детский (до 14 лет) — разовое', price: '30 BYN', isSplit: false, isSubscription: false }, { name: 'Взрослый (+14) — разовое', price: '35 BYN', isSplit: false, isSubscription: false }] }
+            gym: { 
+                title: 'Тренажерный зал', 
+                startHour: 7, endHour: 22, weekendEndHour: 14, 
+                locations: [{ name: 'Gym24 на Немиге', url: 'https://yandex.ru/maps/?text=Gym24+Немига+Минск' }], 
+                list: [
+                    { name: 'Персональная тренировка', price: '40 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Сплит тренировка (2 человека)', price: '30 BYN с каждого', isSplit: true, isSubscription: false }
+                ] 
+            },
+            skating: { 
+                title: 'Катание на коньках', 
+                startHour: 10, endHour: 23, 
+                locations: [{ name: 'ТРЦ Замок', url: 'https://yandex.ru/maps/?text=ТРЦ+Замок+Минск+каток' }], 
+                list: [
+                    { name: 'Детский (до 14 лет) — разовое', price: '50 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Взрослый (+14) — разовое', price: '55 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Детский абонемент — 4 занятия', price: '180 BYN', isSplit: false, isSubscription: true },
+                    { name: 'Взрослый абонемент — 4 занятия', price: '200 BYN', isSplit: false, isSubscription: true },
+                    { name: 'Детский абонемент — 8 занятий', price: '345 BYN', isSplit: false, isSubscription: true },
+                    { name: 'Взрослый абонемент — 8 занятий', price: '385 BYN', isSplit: false, isSubscription: true }
+                ] 
+            },
+            'dry-ice': { 
+                title: 'Броски на сухом льду', 
+                startHour: 7, endHour: 23, weekendEndHour: 14, 
+                locations: [{ name: 'Бросковая зона на Кальварийской', url: 'https://yandex.ru/maps/?text=Кальварийская+Минск+бросковая+зона' }], 
+                list: [
+                    { name: 'Детский (до 14 лет) — разовое', price: '30 BYN', isSplit: false, isSubscription: false },
+                    { name: 'Взрослый (+14) — разовое', price: '35 BYN', isSplit: false, isSubscription: false }
+                ] 
+            }
         };
 
         function changeTheme(themeName) { document.body.className = "p-4 max-w-md mx-auto " + themeName; localStorage.setItem('vlad_theme', themeName); }
@@ -494,8 +510,6 @@
             let birthday = document.getElementById('reg-birthday').value.trim();
 
             if (!name || !surname || !phone || !birthday) { tg.showAlert('❌ Пожалуйста, заполните все поля!'); return; }
-
-            // Преобразуем ДД.ММ.ГГГГ в ГГГГ-ММ-ДД
             if (birthday.includes('.')) {
                 const parts = birthday.split('.');
                 if (parts.length === 3) birthday = `${parts[2]}-${parts[1]}-${parts[0]}`;
@@ -555,6 +569,7 @@
         function generateTimeSlots(blockedSlots) {
             const container = document.getElementById('slots-grid'); container.innerHTML = '';
             let isWeekend = calSelectedDate ? (calSelectedDate.getDay() === 0 || calSelectedDate.getDay() === 6) : false;
+            
             if (currentCategoryKey === 'skating') {
                 for (let h = 10; h < 23; h++) {
                     const timeStr = `${String(h).padStart(2,'0')}:15`;
@@ -565,16 +580,17 @@
                 }
                 return;
             }
-            let startH = isWeekend ? 10 : servicesData[currentCategoryKey].startHour;
-            let endH = isWeekend ? 14 : servicesData[currentCategoryKey].endHour;
+
+            // Для зала и сухого льда: только начало часа
+            let startH = isWeekend ? 7 : servicesData[currentCategoryKey].startHour;
+            let endH = isWeekend ? servicesData[currentCategoryKey].weekendEndHour : servicesData[currentCategoryKey].endHour;
+
             for (let h = startH; h < endH; h++) {
-                for (let m of [0, 30]) {
-                    const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-                    const btn = document.createElement('button'); btn.className = 'bg-secondary border border-accent rounded-xl py-2.5 text-sm font-bold cursor-pointer transition'; btn.innerText = timeStr;
-                    if (blockedSlots.includes(timeStr)) { btn.classList.add('opacity-30'); btn.style.cursor = 'not-allowed'; btn.disabled = true; }
-                    else { btn.onclick = () => selectTime(timeStr); }
-                    container.appendChild(btn);
-                }
+                const timeStr = `${String(h).padStart(2,'0')}:00`; // Только ровный час
+                const btn = document.createElement('button'); btn.className = 'bg-secondary border border-accent rounded-xl py-2.5 text-sm font-bold cursor-pointer transition'; btn.innerText = timeStr;
+                if (blockedSlots.includes(timeStr)) { btn.classList.add('opacity-30'); btn.style.cursor = 'not-allowed'; btn.disabled = true; }
+                else { btn.onclick = () => selectTime(timeStr); }
+                container.appendChild(btn);
             }
         }
 
